@@ -5,6 +5,11 @@ import AccountCard from "./account";
 import { useState } from "react";
 import { postMemo } from "@/api/memo";
 import { Memo } from "@/interfaces/memo";
+import React from "react";
+import MemosCard from "./memos";
+import { renderToStaticMarkup } from "react-dom/server";
+import { createRoot, hydrateRoot } from "react-dom/client";
+import { useRouter } from "next/navigation";
 
 type Props = {
     userId: number,
@@ -33,7 +38,9 @@ const MemosEditor = ({ userId, username }: Props) => {
         const { data } = await postMemo(memoBody as Memo);
         if(data !== null) {
             setMemo("");
-            // console.log(data.memo);
+            setIsMemoabled(false);
+            const memoContainer = document.getElementById('memoContainer');
+            const newMemoComponent = <MemosCard key={ data.memo.memoId } memo={ data.memo } />;
             console.log("发送成功");
         }
         else {

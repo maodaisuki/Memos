@@ -35,7 +35,7 @@ const MemosContainer = ({ initialList }: Props) => {
     }, [inView]);
   
     return (
-      <div className="w-full flex flex-col mt-[10px] mb-[50px] space-y-3 px-[10px]">
+      <div id="memoContainer" className="w-full flex flex-col mt-[10px] mb-[50px] space-y-3 px-[10px]">
         {
           memoList.map((memo) => (
             <MemosCard key={memo.memoId} memo={memo} />
