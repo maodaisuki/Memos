@@ -14,12 +14,12 @@ const RegisterForm = () => {
                         <input className="input input-bordered h-[40px] rounded-[4px] w-full focus:outline-none mr-[1px]" type="text" placeholder="请输入用户名" />
                     </label>
                 </div>
-                <div className="flex flex-col mb-[15px]">
+                {/* <div className="flex flex-col mb-[15px]">
                     <label className="w-full focus:outline-none mr-[1px] flex items-center space-x-2">
                         <span className="w-[120px] text-end">邮箱：</span>
                         <input className="input input-bordered  h-[40px] rounded-[4px] w-full focus:outline-none mr-[1px]" type="password" placeholder="请输入邮箱（选填）" />
                     </label>
-                </div>
+                </div> */}
                 <div className="flex flex-col mb-[15px]">
                     <label className="w-full focus:outline-none mr-[1px] flex items-center space-x-2">
                         <span className="w-[120px] text-end">密码：</span>
@@ -38,7 +38,7 @@ const RegisterForm = () => {
                             <label className="label cursor-pointer">
                                 <input type="checkbox" className="checkbox checkbox-xs" />
                                 &nbsp;&nbsp;
-                                <span className="w-full text-start label-text">我已经阅读并同意<Link className="link link-hover text-info" href="#">《协议》</Link></span>
+                                <span className="w-full text-start label-text">我已经阅读并同意<Link className="link link-hover text-info" href="#"> MAOJI 用户协议</Link></span>
                             </label>
                         </div>
                     </div>

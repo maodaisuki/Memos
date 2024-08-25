@@ -3,11 +3,13 @@ import Link from "next/link";
 import Auth from "@/interfaces/auth";
 import { useState } from "react";
 import login from "@/api/login";
-import Router from 'next/router';
+import { useRouter } from 'next/navigation';
+
 
 const LoginForm = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const router = useRouter();
     function updateUsername(event: any) {
         setUsername(event.target.value);
     }
@@ -21,13 +23,8 @@ const LoginForm = () => {
             username: username,
             password: password
         }
-        const data = await login(auth);
-        if(data !== null) {
-            const jwtToken = data.token;
-            const header = {
-                'Authorization': `Bearer ${localStorage.getItem('MAOJI-Token') || ''}`
-            };
-            Router.push('/mine');
+        if(await login(auth)) {
+            router.push("/mine");
         }
         else {
             // TODO 账号密码错误

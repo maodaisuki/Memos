@@ -1,18 +1,32 @@
-import Link from "next/link";
-import Image from "next/image";
+'use client'
 import MemosHeader from "./memosHeader";
 import MemosBody from "./memosBody";
 import MemosFooter from "./memosFooter";
+import { Memo } from "@/interfaces/memo";
+import useSWR from "swr";
+import { getUserById } from "@/api/user";
 
+type Props = {
+    memo: Memo
+}
 
-// TODO 分享时，根据 id 构建 URL，前端开发根据 id 查询笔记。
+function convertDate(utc: string) {
+    const date = new Date(utc);
+    return date.toLocaleString();
+}
 
-const MemosCard = () => {
+const MemosCard = ({ memo }: Props) => {
+    const { data, error } = useSWR(`/api/user/${memo.userId}`, async () => {return await getUserById(memo.userId)});
+    if(!data || error) {
+        return (
+            <></>
+        );
+    }
     return (
         <div className="w-full flex flex-col bg-base-200 rounded-[4px] p-[15px]">
-            <MemosHeader />
-            <MemosBody />
-            <MemosFooter />
+            <MemosHeader createdTime={convertDate(memo.createdDate!.toString())} memoId={memo.memoId!} />
+            <MemosBody content={memo.content} />
+            <MemosFooter username={data?.data.account.username} userId={memo.userId}/>
         </div>
     );
 }

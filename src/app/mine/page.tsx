@@ -1,18 +1,40 @@
+import { getMemoList } from "@/api/memo";
+import { getUserByUsername } from "@/api/user";
 import MemosEditor from "@/components/editor";
 import HeaderMenu from "@/components/header";
-import MemosCard from "@/components/memos";
 import MemosContainer from "@/components/memosContainer";
+import { parseToken } from "@/lib/token";
 
+async function getUsername() {
+  const pToken = await parseToken();
+  return pToken.sub;
+}
 
-export default function Mine() {
+export default async function Mine() {
+  const initialList = await getMemoList(1);
+  const username = await getUsername() || '';
+  const currentUser = await (await getUserByUsername(username)).data.account;
+
+  if(initialList.data == null) {
+    return (
+      <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
+        <div className="md:w-full max-w-xl flex flex-col items-center w-full">
+          <HeaderMenu />
+          <MemosEditor username={currentUser.account.username} userId={currentUser.account.userId}/>
+          <div className="w-full text-center text-sm px-[10px]">
+            - 已加载完所有笔记 -
+          </div>
+        </div>
+      </main>
+    );
+  }
   return (
     <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
       <div className="md:w-full max-w-xl flex flex-col items-center w-full">
         <HeaderMenu />
-        <MemosEditor />
-        <MemosContainer>
-          <MemosCard />
-        </MemosContainer>
+        <MemosEditor username={username} userId={1}/>
+        {/* @ts-ignore */}
+        <MemosContainer initialList={initialList.data.memoList} />
       </div>
     </main>
   );

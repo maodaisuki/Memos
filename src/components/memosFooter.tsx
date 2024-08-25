@@ -1,10 +1,16 @@
 import Link from "next/link";
 
-const MemosFooter = () => {
+
+type Props = {
+    username: string,
+    userId: number
+}
+
+const MemosFooter = ({ username, userId }: Props) => {
     return (
         <div className="w-full flex justify-end">
-            <div className="w-4/12 truncate">
-                <Link href="/" title="username" className="text-[12px] hover:underline">@usernaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaame</Link>
+            <div className="w-4/12 truncate text-end">
+                <Link href={`/mine/user/${userId}`} title="username" className="text-[12px] hover:underline">@{username}</Link>
             </div>
         </div>
     );

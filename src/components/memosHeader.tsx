@@ -1,8 +1,13 @@
-const MemosHeader = () => {
+type Props = {
+    createdTime: string,
+    memoId: number
+}
+
+const MemosHeader = ({ createdTime, memoId }: Props) => {
     return (
         <div className="W-full flex flex-row mb-[12px] text-[12px] justify-between items-center">
             <div className="text-baseline">
-                2024-08-09 21:00:05
+                { createdTime }
             </div>
             <div className="text-baseline align-middle">
                 <button className="align-middle">

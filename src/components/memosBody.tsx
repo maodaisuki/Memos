@@ -1,12 +1,15 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from "remark-gfm";
 
-const testContent = "| test |\n| ---- |\n```python\nprint(\"helloworld\");\n```\n"
-const MemosBody = () => {
+type Props = {
+    content: string;
+}
+
+const MemosBody = ({ content }: Props) => {
     return (
         <div className="w-full markdown-body mb-[15px]">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {testContent}
+                {content}
             </ReactMarkdown>
         </div>
     )
