@@ -21,7 +21,7 @@ async function postMemo(memo: Memo) {
         }
     )
     .then((res) => {
-        const data = res.data.statusCode == 200 ? res.data : null;
+        const data = res.data;
         const error = null;
         return { data, error }
     })
@@ -34,7 +34,7 @@ async function postMemo(memo: Memo) {
     return { data, error };
 }
 
-async function getMemoList(page: number, limit: number = 10) {
+async function getMemoList(page: number, limit: number = 20) {
     const { data, error } = await instance.get(
         `/Memo/trends?page=${page}&pageSize=${limit}`,
         {

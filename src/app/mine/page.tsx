@@ -1,6 +1,5 @@
 import { getMemoList } from "@/api/memo";
 import { getUserByUsername } from "@/api/user";
-import MemosEditor from "@/components/editor";
 import HeaderMenu from "@/components/header";
 import MemosContainer from "@/components/memosContainer";
 import { parseToken } from "@/lib/token";
@@ -20,9 +19,9 @@ export default async function Mine() {
       <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
         <div className="md:w-full max-w-xl flex flex-col items-center w-full">
           <HeaderMenu />
-          <MemosEditor username={currentUser.account.username} userId={currentUser.account.userId}/>
+          <MemosContainer initialList={initialList.data.memoList} username={username} userId={currentUser.userId}/>
           <div className="w-full text-center text-sm px-[10px]">
-            - 已加载完所有笔记 -
+            - 已加载完所有共 0 条笔记 -
           </div>
         </div>
       </main>
@@ -32,9 +31,7 @@ export default async function Mine() {
     <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
       <div className="md:w-full max-w-xl flex flex-col items-center w-full">
         <HeaderMenu />
-        <MemosEditor username={username} userId={1}/>
-        {/* @ts-ignore */}
-        <MemosContainer initialList={initialList.data.memoList} />
+        <MemosContainer initialList={initialList.data.memoList} username={username} userId={currentUser.userId}/>
       </div>
     </main>
   );

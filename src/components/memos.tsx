@@ -5,6 +5,9 @@ import MemosFooter from "./memosFooter";
 import { Memo } from "@/interfaces/memo";
 import useSWR from "swr";
 import { getUserById } from "@/api/user";
+import { useState } from "react";
+import AccountCard from "./account";
+import toast from "react-hot-toast";
 
 type Props = {
     memo: Memo
@@ -16,19 +19,80 @@ function convertDate(utc: string) {
 }
 
 const MemosCard = ({ memo }: Props) => {
+    const [isOnEdit, setIsOnEdit] = useState(false);
+    const [eidtedMemo, setEditedMemo] = useState(memo.content);
+    const onEdit = () => {
+        document.getElementById("memoDropdownMenu")!.blur();
+        setIsOnEdit(true);
+    }
     const { data, error } = useSWR(`/api/user/${memo.userId}`, async () => {return await getUserById(memo.userId)});
+	const [isMemoabled, setIsMemoabled] = useState(true);
+
+	function textAreaHandle(event: any) {
+        setEditedMemo(event.target.value);
+		if (event.target.value !== "") {
+			setIsMemoabled(true);
+		}
+		else {
+			setIsMemoabled(false);
+		}
+	}
+    
+	async function sendMemo() {
+        // TODO 更新 Memo 接口 & Tag 解析处理
+		const memoBody = {
+            memoId: memo.memoId,
+			content: eidtedMemo,
+			tags: [""],
+			userId: memo.userId,
+            createdDate: memo.createdDate,
+            lastedModifiedDate: Date.UTC,
+		};
+		if (true) {
+            setIsOnEdit(false);
+            memo.content = eidtedMemo;
+		}
+		else {
+			// console.log("发送失败");
+			toast.error("网络错误，请连接网络后再试");
+		}
+	}
+
     if(!data || error) {
         return (
             <></>
         );
     }
-    return (
-        <div className="w-full flex flex-col bg-base-200 rounded-[4px] p-[15px]">
-            <MemosHeader createdTime={convertDate(memo.createdDate!.toString())} memoId={memo.memoId!} />
-            <MemosBody content={memo.content} />
-            <MemosFooter username={data?.data.account.username} userId={memo.userId}/>
-        </div>
-    );
+    if(!isOnEdit) {
+        return (
+            <div className="w-full flex flex-col bg-base-200 rounded-[4px] p-[15px]">
+                <MemosHeader createdTime={convertDate(memo.createdDate!.toString())} memoId={memo.memoId!} onEdit={onEdit} />
+                <MemosBody content={memo.content} />
+                <MemosFooter username={data?.data.account.username} userId={memo.userId}/>
+            </div>
+        )
+    }
+    else {
+        return (
+            <div className="w-full mt-[10px] flex flex-col">
+                <div className="w-full">
+                    <textarea
+                        value={eidtedMemo}
+                        onChange={textAreaHandle}
+                        className="w-full bg-base-200 rounded-[4px] p-[15px] min-h-[100px] leading-relaxed focus:outline-none focus:ring focus:ring-success focus:ring-[1px] ring-[1px] ring-base-300 text-[14px]"
+                        placeholder="现在的想法是..."
+                    />
+                </div>
+                <div className="w-full flex flex-row justify-between items-center mt-[5px] space-x-2">
+                    <div className="text-end w-full">
+                        <button disabled={!isMemoabled} onClick={async () => { await sendMemo() }} className="btn btn-sm no-animation rounded-[4px] text-sm">
+                            Memos!
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 }
 
 export default MemosCard;
