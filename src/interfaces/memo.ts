@@ -3,6 +3,6 @@ export type Memo = {
     content: string,
     tags?: Array<string>,
     createdDate?: Date,
-    lasteModifiedDate?: Date,
+    lastModifiedDate?: Date,
     userId: number
 }

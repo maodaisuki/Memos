@@ -7,6 +7,36 @@ const header = {
     'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
 }
 
+async function updateMemo(memo: Memo) {
+    // console.log(memo.createdDate);
+    const { data, error } = await instance.post(
+        `/Memo`,
+        {
+            memoId: memo.memoId,
+            content: memo.content,
+            tags: memo.tags,
+            userId: memo.userId,
+            cretedDate: memo.createdDate,
+            lastModifiedDate: memo.lastModifiedDate,
+        },
+        {
+            headers: header
+        }
+    )
+    .then((res) => {
+        const data = res.data;
+        const error = null;
+        return { data, error }
+    })
+    .catch((e) => {
+        console.log(`[Post Memo 错误]: ${e.message}`);
+        const data = null;
+        const error = e.message;
+        return { data, error }
+    })
+    return { data, error };
+}
+
 async function postMemo(memo: Memo) {
     // console.log(memo);
     const { data, error } = await instance.post(
@@ -79,5 +109,6 @@ async function getMemoById(id: number) {
 export {
     getMemoById,
     getMemoList,
-    postMemo
+    postMemo,
+    updateMemo
 }

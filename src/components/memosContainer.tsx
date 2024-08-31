@@ -35,13 +35,14 @@ const MemosContainer = ({ initialList, userId, username }: Props) => {
 		const memoBody = {
 			content: memo,
 			tags: [""],
-			userId: userId
+			userId: userId,
 		};
 		const { data } = await postMemo(memoBody as Memo);
 		if (data !== null) {
 			setMemo("");
 			setIsMemoabled(false);
 			memoList.unshift(data.memo);
+			toast.success("保存 Memo 成功");
 		}
 		else {
 			// console.log("发送失败");

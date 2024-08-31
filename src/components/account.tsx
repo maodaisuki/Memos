@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { parseToken } from "@/lib/token";
+import { logout } from "@/api/login";
 
 type Props = {
     userId: number,
@@ -17,7 +17,7 @@ const AccountCard = ({ userId, username }: Props) => {
                 </div> 
                 <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-[4px] z-[999] w-52 p-2 shadow">
                     <li><Link href={`/mine/account`}>个人中心</Link></li>
-                    <li className="text-error"><a>登出</a></li>
+                    <li className="text-error" onClick={async () => {await logout();}}><a>登出</a></li>
                 </ul>
             </div>
         </div>

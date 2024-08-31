@@ -8,6 +8,7 @@ import { getUserById } from "@/api/user";
 import { useState } from "react";
 import AccountCard from "./account";
 import toast from "react-hot-toast";
+import { updateMemo } from "@/api/memo";
 
 type Props = {
     memo: Memo
@@ -38,19 +39,21 @@ const MemosCard = ({ memo }: Props) => {
 		}
 	}
     
-	async function sendMemo() {
-        // TODO 更新 Memo 接口 & Tag 解析处理
+	async function editMemo() {
+        // console.log(memo.createdDate);
 		const memoBody = {
             memoId: memo.memoId,
 			content: eidtedMemo,
 			tags: [""],
 			userId: memo.userId,
             createdDate: memo.createdDate,
-            lastedModifiedDate: Date.UTC,
+            lastModifiedDate: new Date(),
 		};
-		if (true) {
+        const { data } = await updateMemo(memoBody);
+		if (data !== null) {
             setIsOnEdit(false);
             memo.content = eidtedMemo;
+            toast.success("更新 Memo 成功");
 		}
 		else {
 			// console.log("发送失败");
@@ -85,7 +88,7 @@ const MemosCard = ({ memo }: Props) => {
                 </div>
                 <div className="w-full flex flex-row justify-between items-center mt-[5px] space-x-2">
                     <div className="text-end w-full">
-                        <button disabled={!isMemoabled} onClick={async () => { await sendMemo() }} className="btn btn-sm no-animation rounded-[4px] text-sm">
+                        <button disabled={!isMemoabled} onClick={async () => { await editMemo() }} className="btn btn-sm no-animation rounded-[4px] text-sm">
                             Memos!
                         </button>
                     </div>

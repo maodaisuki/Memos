@@ -2,6 +2,12 @@
 import Auth from "@/interfaces/auth";
 import instance from "./instance";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
+async function logout() {
+    cookies().delete('MAOJI-Token');
+    redirect('/');
+}
 
 async function login(auth: Auth) {
     return await instance.post(
@@ -29,4 +35,7 @@ async function login(auth: Auth) {
     })
 }
 
-export default login;
+export {
+    login,
+    logout
+}
