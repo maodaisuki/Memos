@@ -106,9 +106,38 @@ async function getMemoById(id: number) {
     return { data, error };
 }
 
+async function deleteMemoById(id: number) {
+    const { data, error } = await instance.delete(
+        `/Memo?memoId=${id}`,
+        {
+            headers: header
+        }
+    )
+    .then((res) => {
+        if(res.data.statusCode == 400) {
+            const data = null;
+            const error = null;
+            return { data, error };
+        }
+        else {
+            const data = res.data;
+            const error = null;
+            return { data, error };
+        }
+    })
+    .catch((e) => {
+        console.log(`[删除 Memo 错误]: ${e.message}`);
+        const data = null;
+        const error = e.message;
+        return { data, error };
+    });
+    return { data, error };
+}
+
 export {
     getMemoById,
     getMemoList,
     postMemo,
-    updateMemo
+    updateMemo,
+    deleteMemoById
 }

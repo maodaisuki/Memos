@@ -6,12 +6,12 @@ import { Memo } from "@/interfaces/memo";
 import useSWR from "swr";
 import { getUserById } from "@/api/user";
 import { useState } from "react";
-import AccountCard from "./account";
 import toast from "react-hot-toast";
 import { updateMemo } from "@/api/memo";
 
 type Props = {
-    memo: Memo
+    memo: Memo,
+    currentUserId: number,
 }
 
 function convertDate(utc: string) {
@@ -19,7 +19,7 @@ function convertDate(utc: string) {
     return date.toLocaleString();
 }
 
-const MemosCard = ({ memo }: Props) => {
+const MemosCard = ({ memo, currentUserId }: Props) => {
     const [isOnEdit, setIsOnEdit] = useState(false);
     const [eidtedMemo, setEditedMemo] = useState(memo.content);
     const onEdit = () => {
@@ -27,7 +27,7 @@ const MemosCard = ({ memo }: Props) => {
         setIsOnEdit(true);
     }
     const { data, error } = useSWR(`/api/user/${memo.userId}`, async () => {return await getUserById(memo.userId)});
-	const [isMemoabled, setIsMemoabled] = useState(true);
+    const [isMemoabled, setIsMemoabled] = useState(true);
 
 	function textAreaHandle(event: any) {
         setEditedMemo(event.target.value);
@@ -41,10 +41,17 @@ const MemosCard = ({ memo }: Props) => {
     
 	async function editMemo() {
         // console.log(memo.createdDate);
+        const tagRegex = /#([^#]+)#/g;
+		const matchTags = eidtedMemo.match(tagRegex);
+		if(matchTags !== null) {
+			matchTags.forEach((tag, index) => {
+				matchTags[index] = tag.slice(1, -1);
+			});
+		}
 		const memoBody = {
             memoId: memo.memoId,
 			content: eidtedMemo,
-			tags: [""],
+			tags: matchTags as Array<string>,
 			userId: memo.userId,
             createdDate: memo.createdDate,
             lastModifiedDate: new Date(),
@@ -69,7 +76,7 @@ const MemosCard = ({ memo }: Props) => {
     if(!isOnEdit) {
         return (
             <div className="w-full flex flex-col bg-base-200 rounded-[4px] p-[15px]">
-                <MemosHeader createdTime={convertDate(memo.createdDate!.toString())} memoId={memo.memoId!} onEdit={onEdit} />
+                <MemosHeader createdTime={convertDate(memo.createdDate!.toString())} memoId={memo.memoId!} onEdit={onEdit} userId={memo.userId} currentUserId={currentUserId}/>
                 <MemosBody content={memo.content} />
                 <MemosFooter username={data?.data.account.username} userId={memo.userId}/>
             </div>

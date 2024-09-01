@@ -21,7 +21,7 @@ export default async function Mine() {
           <HeaderMenu />
           <MemosContainer initialList={initialList.data.memoList} username={username} userId={currentUser.userId}/>
           <div className="w-full text-center text-sm px-[10px]">
-            - 已加载完所有共 0 条笔记 -
+            - 已加载完所有笔记 -
           </div>
         </div>
       </main>

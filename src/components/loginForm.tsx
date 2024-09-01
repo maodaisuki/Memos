@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 const LoginForm = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [isRedirecting, setIsRedirecting] = useState(false);
     const [isLoginError, setLoginError] = useState(false);
 
     const router = useRouter();
@@ -31,6 +32,7 @@ const LoginForm = () => {
         }
 
         if(await login(auth)) {
+            setIsRedirecting(true);
             router.push("/mine");
         }
         else {
@@ -85,7 +87,7 @@ const LoginForm = () => {
                     </div>
                 </div>
                 <div className="w-full">
-                    <button onClick={loginAccount} className="btn w-full no-animation text-white bg-sky-500 active:bg-sky-600 rounded-[5px]">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+                    <button disabled={isRedirecting} onClick={loginAccount} className="btn w-full no-animation text-white bg-sky-500 active:bg-sky-600 rounded-[5px]">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
                 </div>
                 {
                     isLoginError &&         

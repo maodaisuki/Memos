@@ -10,6 +10,7 @@ const RegisterForm = () => {
     const [isUsernameError, setUsernameError] = useState(false);
     const [isPasswordError, setPasswordError] = useState(false);
     const [isPasswordEqual, setPasswordEqual] = useState(true);
+    const [isRedirecting, setIsRedirecting] = useState(false);
     const [isReadError, setIsReadError] = useState(false);
     const [isRead, setIsRead] = useState(false);
     const [username, setUsername] = useState("");
@@ -58,6 +59,7 @@ const RegisterForm = () => {
             password: password1
         }
         if(await register(auth)) {
+            setIsRedirecting(true);
             toast.success("注册成功，3秒后跳转至登录页", {
                 duration: 2500
             });
@@ -136,7 +138,7 @@ const RegisterForm = () => {
                         }
                     </div>
                     <div className="w-full mb-[15px]">
-                        <button onClick={registerAccount} className="btn w-full no-animation text-white bg-sky-500 active:bg-sky-600 rounded-[5px]">注&nbsp;&nbsp;&nbsp;&nbsp;册</button>
+                        <button disabled={isRedirecting} onClick={registerAccount} className="btn w-full no-animation text-white bg-sky-500 active:bg-sky-600 rounded-[5px]">注&nbsp;&nbsp;&nbsp;&nbsp;册</button>
                     </div>
                     <div className="w-full text-start">
                         <span>已有账号？&nbsp;<Link className="link link-hover text-info" href="/center">去登录</Link></span>

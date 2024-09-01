@@ -21,7 +21,6 @@ const MemosContainer = ({ initialList, userId, username }: Props) => {
 	const { ref, inView } = useInView();
 	const [memo, setMemo] = useState("");
 	const [isMemoabled, setIsMemoabled] = useState(false);
-
 	function textAreaHandle(event: any) {
 		setMemo(event.target.value);
 		if (event.target.value !== "") {
@@ -32,9 +31,16 @@ const MemosContainer = ({ initialList, userId, username }: Props) => {
 		}
 	}
 	async function sendMemo() {
+		const tagRegex = /#([^#]+)#/g;
+		const matchTags = memo.match(tagRegex);
+		if (matchTags !== null) {
+			matchTags.forEach((tag, index) => {
+				matchTags[index] = tag.slice(1, -1);
+			});
+		}
 		const memoBody = {
 			content: memo,
-			tags: [""],
+			tags: matchTags,
 			userId: userId,
 		};
 		const { data } = await postMemo(memoBody as Memo);
@@ -45,21 +51,19 @@ const MemosContainer = ({ initialList, userId, username }: Props) => {
 			toast.success("保存 Memo 成功");
 		}
 		else {
-			// console.log("发送失败");
 			toast.error("网络错误，请连接网络后再试");
 		}
 	}
 
 	async function loadMore() {
-		// 加入延时，防止加载过快
 		await setTimeout(async () => {
 			if (!hasMore) return;
 			const moreList = await getMemoList(page);
-			if(moreList.data == null) {
+			if (moreList.data == null) {
 				setHasMore(false);
 			}
 			else {
-				if(moreList.data.memoList.length == 0) {
+				if (moreList.data.memoList.length == 0) {
 					setMemoList([...memoList, ...moreList.data.memoList]);
 					setHasMore(false);
 				}
@@ -81,7 +85,7 @@ const MemosContainer = ({ initialList, userId, username }: Props) => {
 	return (
 		<>
 			<div className="w-full mt-[10px] flex flex-col">
-				<Toaster/>
+				<Toaster />
 				<div className="w-full px-[10px]">
 					<textarea
 						value={memo}
@@ -103,8 +107,8 @@ const MemosContainer = ({ initialList, userId, username }: Props) => {
 			</div>
 			<div id="memoContainer" className="w-full flex flex-col mt-[10px] mb-[50px] space-y-3 px-[10px]">
 				{
-					memoList.map((memo) => (
-						<MemosCard key={memo.memoId} memo={memo} />
+					memoList.map((memo, index) => (
+						<MemosCard key={index} memo={memo} currentUserId={userId} />
 					))
 				}
 				{
@@ -114,7 +118,7 @@ const MemosContainer = ({ initialList, userId, username }: Props) => {
 						</div>
 					) : (
 						<div className="w-full text-center text-sm">
-							- 已加载完所有共 {memoList.length} 条笔记 -
+							- 已加载完所有笔记 -
 						</div>
 					)
 				}
