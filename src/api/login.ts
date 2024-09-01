@@ -18,14 +18,16 @@ async function login(auth: Auth) {
         },
     )
     .then((res: any) => {
-        if(res.data.token !== null) {
-            cookies().set('MAOJI-Token', res.data.token, {
-                secure: true,
-                sameSite: 'none',
-                maxAge: 60 * 60 * 24 * 360,
-                // httpOnly: true
-            });
-            return true;
+        if(res.data.statusCode == 200) {
+            if(res.data.token !== null) {
+                cookies().set('MAOJI-Token', res.data.token, {
+                    secure: true,
+                    sameSite: 'none',
+                    maxAge: 60 * 60 * 24 * 360,
+                    // httpOnly: true
+                });
+                return true;
+            }
         }
         return false;
     })
