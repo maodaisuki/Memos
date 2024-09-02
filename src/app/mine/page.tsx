@@ -12,8 +12,12 @@ async function getUsername() {
 export default async function Mine() {
   const initialList = await getMemoList(1);
   const username = await getUsername() || '';
-  const currentUser = await (await getUserByUsername(username)).data.account;
-
+  const currentUser = await (await getUserByUsername(username)).data?.account || null;
+  if(currentUser == null) {
+    return (
+      <h1 className="text-lg">502 Bad Gateway</h1>
+    )
+  }
   if(initialList.data == null) {
     return (
       <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
