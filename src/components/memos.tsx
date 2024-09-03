@@ -5,7 +5,7 @@ import MemosFooter from "./memosFooter";
 import { Memo } from "@/interfaces/memo";
 import useSWR from "swr";
 import { getUserById } from "@/api/user";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { updateMemo } from "@/api/memo";
 
@@ -21,7 +21,7 @@ function convertDate(utc: string) {
 
 const MemosCard = ({ memo, currentUserId }: Props) => {
     const [isOnEdit, setIsOnEdit] = useState(false);
-    const [eidtedMemo, setEditedMemo] = useState(memo.content);
+    const [eidtedMemo, setEditedMemo] = useState(memo.content.slice());
     const onEdit = () => {
         document.getElementById("memoDropdownMenu")!.blur();
         setIsOnEdit(true);
@@ -38,6 +38,17 @@ const MemosCard = ({ memo, currentUserId }: Props) => {
 			setIsMemoabled(false);
 		}
 	}
+
+    useEffect(() => {
+        setEditedMemo(memo.content);
+        if (eidtedMemo !== "") {
+			setIsMemoabled(true);
+		}
+		else {
+			setIsMemoabled(false);
+		}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOnEdit, memo.content])
     
 	async function editMemo() {
         // console.log(memo.createdDate);

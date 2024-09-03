@@ -64,9 +64,9 @@ async function postMemo(memo: Memo) {
     return { data, error };
 }
 
-async function getMemoList(page: number, limit: number = 20) {
+async function getMemoList(page: number, limit: number = 20, query: string = "") {
     const { data, error } = await instance.get(
-        `/Memo/trends?page=${page}&pageSize=${limit}`,
+        `/Memo/trends?page=${page}&pageSize=${limit}&query=${query}`,
         {
             headers: header
         }
