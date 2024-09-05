@@ -12,9 +12,10 @@ type Props = {
 	initialList: Array<Memo>,
 	userId: number,
 	username: string,
+	query: string
 }
 
-const MemosContainer = ({ initialList, userId, username }: Props) => {
+const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 	const [memoList, setMemoList] = useState<Array<Memo>>(initialList);
 	const [page, setPage] = useState(2);
 	const [hasMore, setHasMore] = useState(true);
@@ -58,7 +59,7 @@ const MemosContainer = ({ initialList, userId, username }: Props) => {
 	async function loadMore() {
 		await setTimeout(async () => {
 			if (!hasMore) return;
-			const moreList = await getMemoList(page);
+			const moreList = await getMemoList(page, undefined, query);
 			if (moreList.data == null) {
 				setHasMore(false);
 			}
@@ -82,6 +83,10 @@ const MemosContainer = ({ initialList, userId, username }: Props) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [inView]);
 
+	useEffect(() => {
+		setMemoList(initialList);
+	}, [initialList])
+
 	return (
 		<>
 			<div className="w-full mt-[10px] flex flex-col">
@@ -95,14 +100,19 @@ const MemosContainer = ({ initialList, userId, username }: Props) => {
 					/>
 				</div>
 				<div className="w-full flex flex-row justify-between items-center mt-[5px] space-x-2 px-[10px]">
-					<div className="grow">
-						<AccountCard userId={userId} username={username} />
+					<div className="grow flex flex-row">
+						<AccountCard userId={userId} username={username}/>
 					</div>
 					<div className="flex-none">
 						<button disabled={!isMemoabled} onClick={async () => { await sendMemo() }} className="btn btn-sm no-animation rounded-[4px] text-sm">
 							Memos!
 						</button>
 					</div>
+				</div>
+				<div className="w-full flex flex-row items-center mt-[5px] space-x-2 px-[10px] text-sm">
+					{
+						query !== "" && <div className="bg-base-200 rounded-[3px] text-[12px] p-[4px] mr-[2px] text-info">Content: {query}</div>
+					}
 				</div>
 			</div>
 			<div id="memoContainer" className="w-full flex flex-col mt-[10px] mb-[50px] space-y-3 px-[10px]">

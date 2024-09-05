@@ -13,12 +13,8 @@ const SearchBar = () => {
         var e = event || window.event;
         if(e && e.keyCode == 13) {
             var query = event.target.value;
-            searchMemo(query);
+            router.push(`/search?query=${query}`);
         }
-    }
-
-    function searchMemo(query: string) {
-        router.push(`/search?query=${query}`);
     }
 
     return (
