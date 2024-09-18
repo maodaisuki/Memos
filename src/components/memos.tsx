@@ -40,6 +40,10 @@ const MemosCard = ({ memo, currentUserId }: Props) => {
 	}
 
     useEffect(() => {
+        setIsOnEdit(false);
+    }, [memo]);
+
+    useEffect(() => {
         setEditedMemo(memo.content);
         if (eidtedMemo !== "") {
 			setIsMemoabled(true);
