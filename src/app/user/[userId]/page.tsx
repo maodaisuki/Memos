@@ -36,7 +36,7 @@ export default function UserPage() {
         <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
         <div className="md:w-full max-w-xl flex flex-col items-center w-full">
           <HeaderMenu />
-          <AccountInfo isCurrentUser={true} />
+          <AccountInfo userId={parseInt(userId.toString(), 10)} username={username}/>
         </div>
       </main>
       )
@@ -46,7 +46,7 @@ export default function UserPage() {
         <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
         <div className="md:w-full max-w-xl flex flex-col items-center w-full">
           <HeaderMenu />
-          <AccountInfo isCurrentUser={false}/>
+          <AccountInfo userId={parseInt(userId.toString(), 10)} username={username}/>
         </div>
       </main>
       )

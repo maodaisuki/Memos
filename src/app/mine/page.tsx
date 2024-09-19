@@ -13,17 +13,17 @@ export default async function Mine() {
   const initialList = await getMemoList(1);
   const username = await getUsername() || '';
   const currentUser = await (await getUserByUsername(username)).data?.account || null;
-  if(currentUser == null) {
+  if (currentUser == null) {
     return (
       <h1 className="text-lg">502 Bad Gateway</h1>
     )
   }
-  if(initialList.data == null) {
+  if (initialList.data == null) {
     return (
       <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
         <div className="md:w-full max-w-xl flex flex-col items-center w-full">
           <HeaderMenu />
-          <MemosContainer query="" initialList={initialList.data.memoList} username={username} userId={currentUser.userId}/>
+          <MemosContainer query="" initialList={initialList.data.memoList} username={username} userId={currentUser.userId} />
           <div className="w-full text-center text-sm px-[10px]">
             - 已加载完所有笔记 -
           </div>
@@ -35,7 +35,7 @@ export default async function Mine() {
     <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
       <div className="md:w-full max-w-xl flex flex-col items-center w-full">
         <HeaderMenu />
-        <MemosContainer query="" initialList={initialList.data.memoList} username={username} userId={currentUser.userId}/>
+        <MemosContainer query="" initialList={initialList.data.memoList} username={username} userId={currentUser.userId} />
       </div>
     </main>
   );
