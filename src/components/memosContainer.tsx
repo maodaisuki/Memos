@@ -104,7 +104,7 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 						<AccountCard userId={userId} username={username}/>
 					</div>
 					<div className="flex-none">
-						<button disabled={!isMemoabled} onClick={async () => { await sendMemo() }} className="btn btn-sm no-animation rounded-[4px] text-sm">
+						<button disabled={!isMemoabled} onClick={async () => { await sendMemo() }} className="btn btn-sm no-animation text-white disabled:bg-stone-400 bg-success hover:bg-[#2ac090] hover:cursor-pointer rounded-[4px] text-sm">
 							Memos!
 						</button>
 					</div>

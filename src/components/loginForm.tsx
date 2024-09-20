@@ -77,17 +77,17 @@ const LoginForm = () => {
                 </div>
                 <div className="flex flex-row justify-between mb-[15px] text-[12px]">
                     <div className="w-full text-start">
-                        <Link className="link link-hover text-info" href="#">忘记用户名</Link>
+                        <Link className="link link-hover text-success" href="#">忘记用户名</Link>
                     </div>
                     <div className="w-full text-center">
-                        <span>我是新用户&nbsp;<Link className="link link-hover text-info" href="/center/register">去注册</Link></span>
+                        <span>我是新用户&nbsp;<Link className="link link-hover text-success" href="/center/register">去注册</Link></span>
                     </div>
                     <div className="w-full text-end">
-                        <Link className="link link-hover text-info" href="#">忘记密码？</Link>
+                        <Link className="link link-hover text-success" href="#">忘记密码？</Link>
                     </div>
                 </div>
                 <div className="w-full">
-                    <button disabled={isRedirecting} onClick={loginAccount} className="btn w-full no-animation text-white bg-sky-500 active:bg-sky-600 rounded-[5px]">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+                    <button disabled={isRedirecting} onClick={loginAccount} className="btn w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
                 </div>
                 {
                     isLoginError &&         

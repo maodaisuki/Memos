@@ -110,7 +110,7 @@ const MemosCard = ({ memo, currentUserId }: Props) => {
                 </div>
                 <div className="w-full flex flex-row justify-between items-center mt-[5px] space-x-2">
                     <div className="text-end w-full">
-                        <button disabled={!isMemoabled} onClick={async () => { await editMemo() }} className="btn btn-sm no-animation rounded-[4px] text-sm">
+                        <button disabled={!isMemoabled} onClick={async () => { await editMemo() }} className="btn btn-sm no-animation text-white disabled:bg-stone-400 bg-success hover:bg-[#2ac090] rounded-[4px] text-sm">
                             Memos!
                         </button>
                     </div>

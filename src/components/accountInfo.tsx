@@ -9,13 +9,15 @@ import { getUserAnalysisData } from "@/api/user";
 type Props = {
     userId: number,
     username: string,
+    currentUsername: string
 }
 
-const AccountInfo = ({ userId, username }: Props) => {
+const AccountInfo = ({ userId, username, currentUsername }: Props) => {
     const currentYear = new Date().getFullYear();
     const [selectedYear, setSelectedYear] = useState(currentYear);
     const [isLoading, setIsLoading] = useState(true);
     const [option, setOption] = useState<any>();
+    const [memosCount, setMemosCount] = useState(0);
     const yearArray = [];
     const firstYear = 2020;
     let year = firstYear;
@@ -26,6 +28,11 @@ const AccountInfo = ({ userId, username }: Props) => {
         const fetchData = async () => {
             const memosAnalysisData = await getUserAnalysisData(userId, selectedYear);
             const data = memosAnalysisData.data.memosData;
+            let count = 0;
+            for(var d in data) {
+                count =  count + data[d];
+            }
+            setMemosCount(count);
             if(memosAnalysisData.data.memosData !== null) {
                 const optTemp = {
                     tooltip: {
@@ -84,7 +91,7 @@ const AccountInfo = ({ userId, username }: Props) => {
                     @{username} 的活动记录
                 </div>
                 <div className="text-sm">
-                    <select name="year" value={selectedYear} id="year-select" className="w-[60px] h-[20px] bg-transparent border-0 outline-none" onChange={(e) => {setIsLoading(true); setSelectedYear(parseInt(e.target.value, 10))}}>
+                    <select name="year" value={selectedYear} id="year-select" className="hover:cursor-pointer w-[60px] h-[20px] bg-transparent border-0 outline-none" onChange={(e) => {setIsLoading(true); setSelectedYear(parseInt(e.target.value, 10))}}>
                         {
                             yearArray.map((value, index) => (
                                 <option key={`${index}:${value}`} value={value}>{value}</option>
@@ -93,9 +100,10 @@ const AccountInfo = ({ userId, username }: Props) => {
                     </select>
                 </div>
             </div>
-            <div className="w-full flex flex-col">
-                {
-                    isLoading ? <ReactECharts
+            {
+                isLoading ?
+                <div className="w-full flex flex-col">
+                    <ReactECharts
                         option={{
                             tooltip: {
                                 trigger: 'axis',
@@ -143,17 +151,27 @@ const AccountInfo = ({ userId, username }: Props) => {
                         lazyUpdate={true}
                         theme={"light"}
                     />
-                    : <ReactECharts
+                    <div className="h-[30px]">
+                    </div>
+                </div>
+                : <div className="w-full flex flex-col">
+                    <ReactECharts
                         option={option}
                         notMerge={true}
                         lazyUpdate={true}
                         theme={"light"}
                     />
-                }
-                <div className="w-full mt-[10px]">
-                    test
+                    {/* TODO 这里插入热力图 */}
+                    <div className="h-[30px]">
+                        <div className="w-full flex flex-row justify-center text-sm mt-[10px]">
+                            <button className="flex flex-row hover:text-success">
+                                <span className="align-middle leading-[20px]">{selectedYear} 年共 {memosCount} 条 Memos!&nbsp;</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-external-link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     )
 }

@@ -127,7 +127,7 @@ const RegisterForm = () => {
                             <label className="label cursor-pointer">
                                 <input type="checkbox" className="checkbox checkbox-xs" onChange={() => {setIsReadError(false); setIsRead(!isRead);}} checked={isRead}/>
                                 &nbsp;&nbsp;
-                                <span className="w-full text-start label-text">我已经阅读并同意<Link className="link link-hover text-info" href="#"> MAOJI 用户协议</Link></span>
+                                <span className="w-full text-start label-text">我已经阅读并同意<Link className="link link-hover text-success" href="#"> MAOJI 用户协议</Link></span>
                             </label>
                         </div>
                         {
@@ -138,10 +138,10 @@ const RegisterForm = () => {
                         }
                     </div>
                     <div className="w-full mb-[15px]">
-                        <button disabled={isRedirecting} onClick={registerAccount} className="btn w-full no-animation text-white bg-sky-500 active:bg-sky-600 rounded-[5px]">注&nbsp;&nbsp;&nbsp;&nbsp;册</button>
+                        <button disabled={isRedirecting} onClick={registerAccount} className="btn w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">注&nbsp;&nbsp;&nbsp;&nbsp;册</button>
                     </div>
                     <div className="w-full text-start">
-                        <span>已有账号？&nbsp;<Link className="link link-hover text-info" href="/center">去登录</Link></span>
+                        <span>已有账号？&nbsp;<Link className="link link-hover text-success" href="/center">去登录</Link></span>
                     </div>
                 </div>
             </div>

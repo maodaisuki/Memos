@@ -25,7 +25,7 @@ const SearchBar = () => {
                 onKeyUp={onKeyUp}
                 value={searchQuery}
                 type="search"
-                className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-200 rounded-[4px] focus:outline-none px-[10px] h-[40px] text-[14px]"
+                className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-200 rounded-[4px] px-[10px] h-[40px] text-[14px]"
                 placeholder="Type here..."
             />
         </div>
