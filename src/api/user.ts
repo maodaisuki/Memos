@@ -69,8 +69,30 @@ async function getUserAnalysisData(userId: number, year: number) {
     return { data, error };
 }
 
+async function getUserHeatmapData(userId: number, year: number) {
+    const { data, error } = await instance.get(
+        `/User/heatmap?userId=${userId}&year=${year}`,
+        {
+            headers: header
+        }
+    )
+    .then((res) => {
+        const data = res.data;
+        const error = null;
+        return { data, error };
+    })
+    .catch((e) => {
+        console.log(`[获取用户信息错误]: ${e.message}`);
+        const data = null;
+        const error = e.message;
+        return { data, error };
+    });
+    return { data, error };
+}
+
 export {
     getUserById,
     getUserByUsername,
-    getUserAnalysisData
+    getUserAnalysisData,
+    getUserHeatmapData
 }

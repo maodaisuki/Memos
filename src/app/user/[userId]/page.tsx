@@ -7,6 +7,7 @@ import { parseToken } from "@/lib/token";
 import HeaderMenu from "@/components/header";
 import AccountInfo from "@/components/accountInfo";
 import AccountSetting from "@/components/accountSetting";
+
 async function getUsername() {
   const pToken = await parseToken();
   return pToken.sub;
@@ -41,7 +42,7 @@ export default function UserPage() {
         <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
         <div className="md:w-full max-w-xl flex flex-col items-center w-full">
           <HeaderMenu />
-          <AccountInfo userId={parseInt(userId.toString(), 10)} currentUsername={currentUsername} username={username}/>
+          <AccountInfo userId={parseInt(userId.toString(), 10)} username={username} />
           <AccountSetting />
         </div>
       </main>
@@ -52,7 +53,7 @@ export default function UserPage() {
         <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
         <div className="md:w-full max-w-xl flex flex-col items-center w-full">
           <HeaderMenu />
-          <AccountInfo userId={parseInt(userId.toString(), 10)} currentUsername={currentUsername} username={username}/>
+          <AccountInfo userId={parseInt(userId.toString(), 10)} username={username} />
         </div>
       </main>
       )
