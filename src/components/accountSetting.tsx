@@ -1,6 +1,6 @@
 const AccountSetting = () => {
     return (
-        <div className="w-full mt-[5px] p-[10px] flex flex-col">
+        <div className="w-full p-[10px] flex flex-col">
             <div className="w-full flex flex-col bg-base-200 rounded-[4px] p-[15px] text-sm">
                 <div className="space-y-[10px]">
                     <div className="pb-[5px] mb-[5px] text-lg">

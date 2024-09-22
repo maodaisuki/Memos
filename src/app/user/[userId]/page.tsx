@@ -40,7 +40,7 @@ export default function UserPage() {
     if(currentUser.userId == userId) {
       return (
         <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
-        <div className="md:w-full max-w-xl flex flex-col items-center w-full">
+        <div className="md:w-full max-w-xl flex flex-col items-center w-full justify-between">
           <HeaderMenu />
           <AccountInfo userId={parseInt(userId.toString(), 10)} username={username} />
           <AccountSetting />
