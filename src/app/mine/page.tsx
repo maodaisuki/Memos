@@ -21,13 +21,13 @@ export default async function Mine() {
   if (initialList.data == null) {
     return (
       <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
-        <div className="md:w-full max-w-xl flex flex-col items-center w-full">
+        {/* <div className="md:w-full max-w-xl flex flex-col items-center w-full">
           <HeaderMenu />
           <MemosContainer query="" initialList={initialList.data.memoList} username={username} userId={currentUser.userId} />
           <div className="w-full text-center text-sm px-[10px]">
             - 已加载完所有笔记 -
           </div>
-        </div>
+        </div> */}
       </main>
     );
   }

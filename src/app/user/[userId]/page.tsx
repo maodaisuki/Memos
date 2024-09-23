@@ -7,6 +7,7 @@ import { parseToken } from "@/lib/token";
 import HeaderMenu from "@/components/header";
 import AccountInfo from "@/components/accountInfo";
 import AccountSetting from "@/components/accountSetting";
+import CustomSetting from "@/components/customSetting";
 
 async function getUsername() {
   const pToken = await parseToken();
@@ -44,6 +45,7 @@ export default function UserPage() {
           <HeaderMenu />
           <AccountInfo userId={parseInt(userId.toString(), 10)} username={username} />
           <AccountSetting />
+          <CustomSetting />
         </div>
       </main>
       )

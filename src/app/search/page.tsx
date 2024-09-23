@@ -43,13 +43,13 @@ const SearchPage = () => {
     if(initialList == null) {
       return (
         <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
-          <div className="md:w-full max-w-xl flex flex-col items-center w-full">
+          {/* <div className="md:w-full max-w-xl flex flex-col items-center w-full">
             <HeaderMenu />
-            {/* <MemosContainer initialList={initialList.memoList} username={username} userId={currentUser.userId}/> */}
+            <MemosContainer initialList={initialList.memoList} username={username} userId={currentUser.userId}/>
             <div className="w-full text-center text-sm px-[10px]">
               - 已加载完所有笔记 -
             </div>
-          </div>
+          </div> */}
         </main>
       );
     }

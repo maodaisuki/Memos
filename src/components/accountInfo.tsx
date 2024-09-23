@@ -5,7 +5,7 @@ import AccountCard from "./account";
 import React, { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import { getUserAnalysisData, getUserHeatmapData } from "@/api/user";
-import ActivityCalendar from "react-activity-calendar";
+import ActivityCalendar, { ThemeInput } from "react-activity-calendar";
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 
@@ -24,6 +24,10 @@ const AccountInfo = ({ userId, username }: Props) => {
     const yearArray = [];
     const firstYear = 2020;
     let year = firstYear;
+    const explicitTheme: ThemeInput = {
+        light: ['#d7d9db', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
+        dark: ['#323942', '#39d353', '#26a641', '#006d32', '#0e4429'],
+    };
     for (; year <= currentYear; year++) {
         yearArray.unshift(year);
     }
@@ -171,11 +175,9 @@ const AccountInfo = ({ userId, username }: Props) => {
                                 // hideTotalCount
                                 // hideColorLegend
                                 weekStart={0}
-                                theme={                                    {
-                                    light: ['#d7d9db', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
-                                    dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
-                                }}
-                                colorScheme={document.getElementById('rootHtml')?.dataset.theme == 'light' ? "light" : "dark" || "light"}
+                                theme={explicitTheme}
+                                // @ts-ignore
+                                colorScheme={"dark"}
                                 renderBlock={(block, activity) =>
                                     React.cloneElement(block, {
                                       'data-tooltip-id': 'react-tooltip',
@@ -228,11 +230,9 @@ const AccountInfo = ({ userId, username }: Props) => {
                                 // hideTotalCount
                                 // hideColorLegend
                                 weekStart={0}
-                                theme={                                    {
-                                    light: ['#d7d9db', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
-                                    dark: ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'],
-                                }}
-                                colorScheme={document.getElementById('rootHtml')?.dataset.theme == 'light' ? "light" : "dark" || "light"}
+                                theme={explicitTheme}
+                                // @ts-ignore
+                                colorScheme={"dark"}
                                 renderBlock={(block, activity) =>
                                     React.cloneElement(block, {
                                       'data-tooltip-id': 'react-tooltip',
