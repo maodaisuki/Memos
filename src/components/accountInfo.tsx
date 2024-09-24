@@ -20,7 +20,6 @@ const AccountInfo = ({ userId, username }: Props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [graphOption, setGraphOption] = useState<any>();
     const [heatmapData, setHeatmapData] = useState<any>();
-    const [memosCount, setMemosCount] = useState(0);
     const yearArray = [];
     const firstYear = 2020;
     let year = firstYear;
@@ -36,11 +35,6 @@ const AccountInfo = ({ userId, username }: Props) => {
             const memosAnalysisData = await getUserAnalysisData(userId, selectedYear);
             const memosHeatmapData = await getUserHeatmapData(userId, selectedYear);
             const analysisData = memosAnalysisData.data.memosData;
-            let count = 0;
-            for (var d in analysisData) {
-                count = count + analysisData[d];
-            }
-            setMemosCount(count);
             if (memosAnalysisData.data.memosData !== null && memosHeatmapData.data.heatmapData !== null) {
                 const analysisOptionTemp = {
                     tooltip: {
