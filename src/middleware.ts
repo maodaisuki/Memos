@@ -6,16 +6,15 @@ export async function middleware(request: NextRequest) {
     if(request.nextUrl.pathname == '/') {
         return NextResponse.redirect(new URL('/mine', request.url));
     }
-    if(request.nextUrl.pathname.startsWith("/mine") && await isJWTExpired()) {
-        return NextResponse.redirect(new URL("/center", request.url));
-    }
-    if(request.nextUrl.pathname.startsWith("/center")) {
-        if(await !isJWTExpired()) {
-            return NextResponse.redirect(new URL("/mine", request.url));
+    if(request.nextUrl.pathname.startsWith("/mine") || request.nextUrl.pathname.startsWith("/user") || request.nextUrl.pathname.startsWith("/hashtags") || request.nextUrl.pathname.startsWith("/search")) {
+        if(await isJWTExpired()) {
+            return NextResponse.redirect(new URL("/center", request.url));
         }
     }
-    if(request.nextUrl.pathname.startsWith("/user") || request.nextUrl.pathname.startsWith("/hashtags") || request.nextUrl.pathname.startsWith("/search") && await isJWTExpired()) {
-        return NextResponse.redirect(new URL("/mine", request.url));
+    if(request.nextUrl.pathname.startsWith("/center")) {
+        if(!(await isJWTExpired())) {
+            return NextResponse.redirect(new URL("/mine", request.url))
+        }
     }
 }
 
