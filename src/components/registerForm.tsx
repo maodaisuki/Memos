@@ -1,7 +1,6 @@
 'use client'
 import { register } from "@/api/register";
 import Auth from "@/interfaces/auth";
-import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast"
@@ -125,9 +124,9 @@ const RegisterForm = () => {
                     <div className="w-full text-start mb-[5px]">
                         <div className="form-control">
                             <label className="label cursor-pointer">
-                                <input type="checkbox" className="checkbox checkbox-xs" onChange={() => {setIsReadError(false); setIsRead(!isRead);}} checked={isRead}/>
+                                <input type="checkbox" className="checkbox-success checkbox [--chkfg:white] checkbox-xs" onChange={() => {setIsReadError(false); setIsRead(!isRead);}} checked={isRead}/>
                                 &nbsp;&nbsp;
-                                <span className="w-full text-start label-text">我已经阅读并同意<Link className="link link-hover text-success" href="#"> MAOJI 用户协议</Link></span>
+                                <span className="w-full text-start label-text">我已经阅读并同意<a className="link link-hover text-success" href="#"> MAOJI 用户协议</a></span>
                             </label>
                         </div>
                         {
@@ -141,7 +140,7 @@ const RegisterForm = () => {
                         <button disabled={isRedirecting} onClick={registerAccount} className="btn w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">注&nbsp;&nbsp;&nbsp;&nbsp;册</button>
                     </div>
                     <div className="w-full text-start">
-                        <span>已有账号？&nbsp;<Link className="link link-hover text-success" href="/center">去登录</Link></span>
+                        <span>已有账号？&nbsp;<a className="link link-hover text-success" href="/center">去登录</a></span>
                     </div>
                 </div>
             </div>

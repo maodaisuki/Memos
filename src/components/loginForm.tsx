@@ -1,5 +1,4 @@
 'use client'
-import Link from "next/link";
 import Auth from "@/interfaces/auth";
 import { useState } from "react";
 import { login } from "@/api/login";
@@ -77,13 +76,13 @@ const LoginForm = () => {
                 </div>
                 <div className="flex flex-row justify-between mb-[15px] text-[12px]">
                     <div className="w-full text-start">
-                        <Link className="link link-hover text-success" href="#">忘记用户名</Link>
+                        <a className="link link-hover text-success" href="#">忘记用户名</a>
                     </div>
                     <div className="w-full text-center">
-                        <span>我是新用户&nbsp;<Link className="link link-hover text-success" href="/center/register">去注册</Link></span>
+                        <span>我是新用户&nbsp;<a className="link link-hover text-success" href="/center/register">去注册</a></span>
                     </div>
                     <div className="w-full text-end">
-                        <Link className="link link-hover text-success" href="#">忘记密码？</Link>
+                        <a className="link link-hover text-success" href="#">忘记密码？</a>
                     </div>
                 </div>
                 <div className="w-full">

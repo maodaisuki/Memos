@@ -6,9 +6,6 @@ import { getUserById, getUserByUsername } from "@/api/user";
 import { parseToken } from "@/lib/token";
 import HeaderMenu from "@/components/header";
 import AccountInfo from "@/components/accountInfo";
-import AccountSetting from "@/components/accountSetting";
-import CustomSetting from "@/components/customSetting";
-
 async function getUsername() {
   const pToken = await parseToken();
   return pToken.sub;
@@ -41,23 +38,21 @@ export default function UserPage() {
     if(currentUser.userId == userId) {
       return (
         <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
-        <div className="md:w-full max-w-xl flex flex-col items-center w-full justify-between">
-          <HeaderMenu />
-          <AccountInfo userId={parseInt(userId.toString(), 10)} username={username} />
-          <AccountSetting />
-          <CustomSetting />
-        </div>
-      </main>
+          <div className="md:w-full max-w-xl flex flex-col items-center w-full justify-between">
+            <HeaderMenu />
+            <AccountInfo userId={parseInt(userId.toString(), 10)} username={username} isCurrentUser={true} />
+          </div>
+        </main>
       )
     }
     else {
       return (
         <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
-        <div className="md:w-full max-w-xl flex flex-col items-center w-full">
-          <HeaderMenu />
-          <AccountInfo userId={parseInt(userId.toString(), 10)} username={username} />
-        </div>
-      </main>
+          <div className="md:w-full max-w-xl flex flex-col items-center w-full">
+            <HeaderMenu />
+            <AccountInfo userId={parseInt(userId.toString(), 10)} username={username} isCurrentUser={false}/>
+          </div>
+        </main>
       )
     }
   }

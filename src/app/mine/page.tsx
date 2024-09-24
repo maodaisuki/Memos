@@ -3,11 +3,16 @@ import { getUserByUsername } from "@/api/user";
 import HeaderMenu from "@/components/header";
 import MemosContainer from "@/components/memosContainer";
 import { parseToken } from "@/lib/token";
-
+import type { Metadata } from "next";
 async function getUsername() {
   const pToken = await parseToken();
   return pToken.sub;
 }
+
+export const metadata: Metadata = {
+  title: "MAOJI",
+  description: "Mark your memos",
+};
 
 export default async function Mine() {
   const initialList = await getMemoList(1);

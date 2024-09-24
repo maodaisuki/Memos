@@ -11,15 +11,17 @@ import 'react-tooltip/dist/react-tooltip.css';
 
 type Props = {
     userId: number,
-    username: string
+    username: string,
+    isCurrentUser: boolean
 }
 
-const AccountInfo = ({ userId, username }: Props) => {
+const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
     const currentYear = new Date().getFullYear();
     const [selectedYear, setSelectedYear] = useState(currentYear);
     const [isLoading, setIsLoading] = useState(true);
     const [graphOption, setGraphOption] = useState<any>();
     const [heatmapData, setHeatmapData] = useState<any>();
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
     const yearArray = [];
     const firstYear = 2020;
     let year = firstYear;
@@ -88,7 +90,16 @@ const AccountInfo = ({ userId, username }: Props) => {
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedYear, userId, isLoading]);
+    const changeTheme = () => {
+        localStorage.setItem('theme', localStorage.getItem('theme') == 'light' ? 'dark' : 'light');
+        document.getElementById("rootHtml")?.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
+        setTheme(localStorage.getItem('theme') || 'light');   
+    }
 
+    const changeOnlyUser = () => {
+        localStorage.setItem('isOnlyUser', localStorage.getItem('isOnlyUser') == 'true' ? 'false' : 'true');
+        
+    }
     return (
         <div className="w-full mt-[5px] p-[10px] flex flex-col">
             {
@@ -171,7 +182,7 @@ const AccountInfo = ({ userId, username }: Props) => {
                                 weekStart={0}
                                 theme={explicitTheme}
                                 // @ts-ignore
-                                colorScheme={"dark"}
+                                colorScheme={theme}
                                 renderBlock={(block, activity) =>
                                     React.cloneElement(block, {
                                       'data-tooltip-id': 'react-tooltip',
@@ -226,7 +237,7 @@ const AccountInfo = ({ userId, username }: Props) => {
                                 weekStart={0}
                                 theme={explicitTheme}
                                 // @ts-ignore
-                                colorScheme={"dark"}
+                                colorScheme={theme}
                                 renderBlock={(block, activity) =>
                                     React.cloneElement(block, {
                                       'data-tooltip-id': 'react-tooltip',
@@ -245,6 +256,90 @@ const AccountInfo = ({ userId, username }: Props) => {
                             </div>
                         </div> */}
                     </div>
+            }
+            {
+                isCurrentUser ? 
+                    <>
+                    <div className="w-full mt-[20px] flex flex-col">
+                        <div className="w-full flex flex-col bg-base-200 rounded-[4px] p-[15px] text-sm">
+                            <div className="space-y-[10px]">
+                                <div className="pb-[5px] mb-[5px] text-lg">
+                                    账号设置
+                                </div>
+                                <div className="flex flex-row justify-between space-x-[50px]">
+                                    <div className="flex flex-col w-full">
+                                        <div className="mb-[5px]">
+                                            <span className="label-text p-[0px]">电子邮件</span>
+                                        </div>
+                                        <input id="email" type="text" placeholder="example@example.com" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
+                                    </div>
+                                    <div className="flex flex-col w-full">
+                                        <div className="mb-[5px]">
+                                            <span className="label-text p-[0px]">当前密码&nbsp;<span className="text-error">*</span></span>
+                                        </div>
+                                        <input id="password" type="text" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
+                                    </div>
+                                </div>
+                                <div className="flex flex-row justify-between space-x-[50px]">
+                                    <div className="flex flex-col w-full">
+                                        <div className="mb-[5px]">
+                                            <span className="label-text p-[0px]">新密码<span className="text-error"></span></span>
+                                        </div>
+                                        <input id="password1" type="text" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
+                                    </div>
+                                    <div className="flex flex-col w-full">
+                                        <div className="mb-[5px]">
+                                            <span className="label-text p-[0px]">确认新密码<span className="text-error"></span></span>
+                                        </div>
+                                        <input id="password2" type="text" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
+                                    </div>
+                                </div>
+                                <div className="w-full">
+                                    <button className="w-full text-white text-[14px] mt-[5px] h-[35px] rounded-[4px] bg-success hover:bg-[#2ac090]">
+                                        保存
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="w-full mt-[20px] flex flex-col">
+                        <div className="w-full flex flex-col bg-base-200 rounded-[4px] p-[15px] text-sm">
+                            <div className="space-y-[10px]">
+                                <div className="pb-[5px] mb-[5px] text-lg flex flex-row">
+                                    个性化
+                                </div>
+                                <div className="flex flex-row justify-between space-x-[50px]">
+                                    <div>
+                                        夜间模式
+                                    </div>
+                                    <div>
+                                        <label className="swap">
+                                            <input type="checkbox" onClick={changeTheme} defaultChecked={localStorage.getItem('theme') == 'dark' ? true : false}/>
+                                            <div className="swap-on">ON</div>
+                                            <div className="swap-off">OFF</div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="flex flex-row justify-between space-x-[50px]">
+                                    <div>
+                                        只看自己
+                                    </div>
+                                    <div>
+                                        <label className="swap">
+                                            <input type="checkbox" onClick={changeOnlyUser} defaultChecked={localStorage.getItem('isOnlyUser') == 'true' ? true : false} />
+                                            <div className="swap-on">ON</div>
+                                            <div className="swap-off">OFF</div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="text-xs border-t-[1px] pt-[10px] text-end">
+                                 <span className="text-error">*</span>&nbsp;个性化设置仅对当前设备有效
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </>
+                    : <></>
             }
         </div>
     )
