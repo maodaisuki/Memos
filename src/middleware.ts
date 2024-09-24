@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { parseToken } from "./lib/token";
-import { tree } from "next/dist/build/templates/app-page";
 
 export async function middleware(request: NextRequest) {
     if(request.nextUrl.pathname == '/') {
@@ -11,14 +10,17 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/center", request.url));
     }
     if(request.nextUrl.pathname.startsWith("/center")) {
-        if(!isJWTExpired()) {
+        if(await !isJWTExpired()) {
             return NextResponse.redirect(new URL("/mine", request.url));
         }
+    }
+    if(request.nextUrl.pathname.startsWith("/user") || request.nextUrl.pathname.startsWith("/hashtags") || request.nextUrl.pathname.startsWith("/search") && await isJWTExpired()) {
+        return NextResponse.redirect(new URL("/mine", request.url));
     }
 }
 
 async function isJWTExpired() {
-    var jwtToken = cookies().get('MAOJI-Token');
+    var jwtToken = cookies().get('MAOJI-Token') || null;
     if(jwtToken == null) {
         return true;
     }
