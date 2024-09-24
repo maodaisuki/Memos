@@ -10,11 +10,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const [theme, setTheme] = useState('');
 
   useEffect(() => {
     // 从 localStorage 获取主题值
-    const storedTheme = localStorage.getItem("theme");
+    const storedTheme = localStorage.getItem("theme") || 'light';
     if (storedTheme) {
       setTheme(storedTheme);
     }
