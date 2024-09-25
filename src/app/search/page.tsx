@@ -11,56 +11,57 @@ async function getUsername() {
   return pToken.sub;
 }
 const SearchPage = () => {
-    const searchParams = useSearchParams();
-    const [query, setQuery] = useState(searchParams?.get('query') || '');
-    const [initialList, setInitialList] = useState<any>(null)
-    const [username, setUsername] = useState("");
-    const [currentUser, setCurrentUser] = useState<any>(null)
+  const searchParams = useSearchParams();
+  const [query, setQuery] = useState(searchParams?.get('query') || '');
+  const [initialList, setInitialList] = useState<any>(null)
+  const [username, setUsername] = useState("");
+  const [currentUser, setCurrentUser] = useState<any>(null)
 
-    useEffect(() => {
-      setQuery(searchParams?.get('query') || '');
-    }, [searchParams]);
+  useEffect(() => {
+    setQuery(searchParams?.get('query') || '');
+  }, [searchParams]);
 
-    useEffect(() => {
-      const fetchData = async () => {
-        const initialListTemp = await getMemoList(1, undefined, query);
-        const usernameTemp = await getUsername() || '';
-        const currentUserTemp  = await (await getUserByUsername(usernameTemp)).data?.account || null;
-        setInitialList(initialListTemp.data);
-        setUsername(usernameTemp);
-        setCurrentUser(currentUserTemp);
-      }
-      fetchData();
-    }, [query, searchParams]);
-
-    if(currentUser == null) {
-      return (
-        // <h1 className="text-lg">502 Bad Gateway</h1>
-        <></>
-      )
+  useEffect(() => {
+    const fetchData = async () => {
+      const initialListTemp = await getMemoList(1, undefined, query);
+      console.log(searchParams.get('query'));
+      const usernameTemp = await getUsername() || '';
+      const currentUserTemp = await (await getUserByUsername(usernameTemp)).data?.account || null;
+      setInitialList(initialListTemp.data);
+      setUsername(usernameTemp);
+      setCurrentUser(currentUserTemp);
     }
-    
-    if(initialList == null) {
-      return (
-        <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
-          {/* <div className="md:w-full max-w-xl flex flex-col items-center w-full">
+    fetchData();
+  }, [query, searchParams]);
+
+  if (currentUser == null) {
+    return (
+      // <h1 className="text-lg">502 Bad Gateway</h1>
+      <></>
+    )
+  }
+
+  if (initialList == null) {
+    return (
+      <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
+        {/* <div className="md:w-full max-w-xl flex flex-col items-center w-full">
             <HeaderMenu />
             <MemosContainer initialList={initialList.memoList} username={username} userId={currentUser.userId}/>
             <div className="w-full text-center text-sm px-[10px]">
               - 已加载完所有笔记 -
             </div>
           </div> */}
-        </main>
-      );
-    }
-    return (
-      <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
-        <div className="md:w-full max-w-xl flex flex-col items-center w-full">
-          <HeaderMenu />
-          <MemosContainer query={query} initialList={initialList.memoList} username={username} userId={currentUser.userId}/>
-        </div>
       </main>
     );
+  }
+  return (
+    <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
+      <div className="md:w-full max-w-xl flex flex-col items-center w-full">
+        <HeaderMenu />
+        <MemosContainer query={decodeURI(query)} initialList={initialList.memoList} username={username} userId={currentUser.userId} />
+      </div>
+    </main>
+  );
 }
 
 export default SearchPage;

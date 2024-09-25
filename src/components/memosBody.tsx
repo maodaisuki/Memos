@@ -18,7 +18,7 @@ const MemosBody = ({ content }: Props) => {
     }, [content]);
     if(matchTags !== null) {
         matchTags.forEach(tag => {
-            content = content.replace(tag, `[\`${tag}\`](/hashtags/${tag.slice(1, -1)})`);
+            content = content.replace(tag, `[\`${tag}\`](/hashtags/${encodeURIComponent(tag.slice(1, -1))})`);
         });
     }
     return (

@@ -21,7 +21,6 @@ export default function UserPage() {
       const currentUsernameTemp = await getUsername() || '';
       const currentUserTemp = await (await getUserByUsername(currentUsernameTemp)).data?.account || null;
       const userTemp = await (await getUserById(parseInt(userId.toString(), 10))).data?.account || null;
-      setCurrentUsername(currentUserTemp?.username || '');
       setUser(userTemp);
       setUsername(userTemp?.username || '');
       setCurrentUser(currentUserTemp);

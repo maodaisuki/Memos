@@ -22,6 +22,7 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 	const { ref, inView } = useInView();
 	const [memo, setMemo] = useState("");
 	const [isMemoabled, setIsMemoabled] = useState(false);
+	const tagRegex = /#([^#]+)#/g;
 	function textAreaHandle(event: any) {
 		setMemo(event.target.value);
 		if (event.target.value !== "") {
@@ -32,7 +33,6 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 		}
 	}
 	async function sendMemo() {
-		const tagRegex = /#([^#]+)#/g;
 		const matchTags = memo.match(tagRegex);
 		if (matchTags !== null) {
 			matchTags.forEach((tag, index) => {
@@ -111,7 +111,13 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 				</div>
 				<div className="w-full flex flex-row items-center mt-[5px] space-x-2 px-[10px] text-sm">
 					{
-						query !== "" && <div className="bg-base-200 rounded-[3px] text-[12px] p-[4px] mr-[2px] text-info">Content: {query}</div>
+						query !== "" && <div className="bg-base-200 rounded-[3px] text-[12px] p-[4px] mr-[2px] text-info">
+							{
+								tagRegex.test(query) ?
+								<span>Tag: {query}</span>
+								: <span>Content: {query}</span>
+							}
+						</div>
 					}
 				</div>
 			</div>

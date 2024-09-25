@@ -13,7 +13,7 @@ const SearchBar = () => {
         var e = event || window.event;
         if(e && e.keyCode == 13) {
             var query = event.target.value;
-            router.push(`/search?query=${query}`);
+            router.push(`/search?query=${encodeURIComponent(query)}`);
         }
     }
 
