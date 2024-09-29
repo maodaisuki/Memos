@@ -4,10 +4,12 @@ import Image from "next/image";
 import AccountCard from "./account";
 import React, { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
-import { getUserAnalysisData, getUserHeatmapData } from "@/api/user";
+import { getUserAnalysisData, getUserById, getUserHeatmapData, updateUser } from "@/api/user";
 import ActivityCalendar, { ThemeInput } from "react-activity-calendar";
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
+import Account from "@/interfaces/account";
+import toast, { Toaster } from "react-hot-toast"
 
 type Props = {
     userId: number,
@@ -17,13 +19,26 @@ type Props = {
 
 const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
     const currentYear = new Date().getFullYear();
+    const [currentUser, setCurrentUser] = useState<any>();
     const [selectedYear, setSelectedYear] = useState(currentYear);
     const [isLoading, setIsLoading] = useState(true);
     const [graphOption, setGraphOption] = useState<any>();
     const [heatmapData, setHeatmapData] = useState<any>();
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+    const [email, setEmail] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [password1, setPassword1] = useState("");
+    const [password2, setPassword2] = useState("");
+    const [openId, setOpenId] = useState("");
+    const [isCurrentPasswordError, setIsCurrentPasswordError] = useState(false);
+    const [isCurrentPasswordDataError, setIsCurrentPasswordDataError] = useState(false);
+    const [isEmailError, setIsEmailError] = useState(false);
+    const [isPasswordError, setIsPasswordError] = useState(false);
+    const [isPasswordFormatError, setIsPasswordFormatError] = useState(false);
     const yearArray = [];
     const firstYear = 2020;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[#@_])[a-zA-Z0-9#@_]{10,20}$/;
     let year = firstYear;
     const explicitTheme: ThemeInput = {
         light: ['#d7d9db', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
@@ -84,19 +99,72 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                 setHeatmapData(memosHeatmapData.data.heatmapData);
                 // console.log(heatmapData);
                 setGraphOption(analysisOptionTemp);
+                if(isCurrentUser) {
+                    const currentUserTemp = await getUserById(userId);
+                    setCurrentUser(currentUserTemp.data.account);
+                    setEmail(currentUserTemp.data.account?.email ?? "");
+                    setOpenId(currentUserTemp.data.account?.open_id ?? "");
+                }
                 setIsLoading(false);
             }
         }
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedYear, userId, isLoading]);
+
     const changeTheme = () => {
         localStorage.setItem('theme', localStorage.getItem('theme') == 'light' ? 'dark' : 'light');
         document.getElementById("rootHtml")?.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
         setTheme(localStorage.getItem('theme') || 'light');   
     }
+
+    const inputFocus = () => {
+        setIsCurrentPasswordError(false);
+        setIsEmailError(false);
+        setIsPasswordError(false);
+        setIsPasswordFormatError(false);
+        setIsCurrentPasswordDataError(false);
+    }
+
+    const saveAccount = async () => {
+        if(currentPassword == "") {
+            setIsCurrentPasswordError(true);
+            return;
+        }
+        if(!emailRegex.test(email) && email !== "") {
+            setIsEmailError(true);
+            return;
+        }
+        if(password1 !== password2) {
+            setIsPasswordError(true);
+            return;
+        }
+        if(!passwordRegex.test(password1) && password1 !== "" && password2 !== "") {
+            setIsPasswordFormatError(true);
+            return;
+        }
+        const account: Account = {
+            userId: userId,
+            currentPassword: currentPassword,
+            password: password1,
+            email: email,
+            open_id: openId
+        }
+        const { data, error } = await updateUser(account);
+        if(data.statusCode == 200) {
+            toast.success("修改成功");
+        }
+        else if(data.statusCode == 401) {
+            setIsCurrentPasswordDataError(true);
+            return;
+        }
+        else {
+            toast.error("远端服务器错误");
+        }
+    }
     return (
         <div className="w-full mt-[5px] p-[10px] flex flex-col">
+            <Toaster />
             {
                 isLoading ? <>
                     <div className="w-full">
@@ -266,31 +334,69 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                                         <div className="mb-[5px]">
                                             <span className="label-text p-[0px]">电子邮件</span>
                                         </div>
-                                        <input id="email" type="text" placeholder="example@example.com" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
+                                        <input value={email} onFocus={inputFocus}  onChange={(event: any) => { setEmail(event.target.value) }} type="email" placeholder="example@example.com" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
                                     </div>
                                     <div className="flex flex-col w-full">
                                         <div className="mb-[5px]">
                                             <span className="label-text p-[0px]">当前密码&nbsp;<span className="text-error">*</span></span>
                                         </div>
-                                        <input id="password" type="text" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
+                                        <input onFocus={inputFocus} value={currentPassword} onChange={(event: any) => { setCurrentPassword(event.target.value) }} type="password" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
                                     </div>
                                 </div>
+                                {
+                                    isEmailError &&         
+                                    <span className="w-full label-text-alt flex flex-row mt-[10px] justify-start text-error">
+                                        请输入正确的邮箱地址
+                                    </span>
+                                }
+                                {
+                                    isCurrentPasswordError &&         
+                                    <span className="w-full label-text-alt flex flex-row mt-[10px] justify-end text-error">
+                                        请输入当前密码
+                                    </span>
+                                }
+                                {
+                                    isCurrentPasswordDataError &&         
+                                    <span className="w-full label-text-alt flex flex-row mt-[10px] justify-end text-error">
+                                        当前密码错误
+                                    </span>
+                                }
                                 <div className="flex flex-row justify-between space-x-[50px]">
                                     <div className="flex flex-col w-full">
                                         <div className="mb-[5px]">
                                             <span className="label-text p-[0px]">新密码<span className="text-error"></span></span>
                                         </div>
-                                        <input id="password1" type="text" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
+                                        <input value={password1} onFocus={inputFocus} onChange={(event: any) => { setPassword1(event.target.value) }} type="password" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
                                     </div>
                                     <div className="flex flex-col w-full">
                                         <div className="mb-[5px]">
                                             <span className="label-text p-[0px]">确认新密码<span className="text-error"></span></span>
                                         </div>
-                                        <input id="password2" type="text" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
+                                        <input value={password2} onFocus={inputFocus} onChange={(event: any) => { setPassword2(event.target.value) }} type="password" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
+                                    </div>
+                                </div>
+                                {
+                                    isPasswordError &&         
+                                    <span className="w-full label-text-alt flex flex-row mt-[10px] justify-start text-error">
+                                        两次密码不一致
+                                    </span>
+                                }
+                                {
+                                    isPasswordFormatError &&         
+                                    <span className="w-full label-text-alt flex flex-row mt-[10px] justify-start text-error">
+                                        新密码格式错误，新密码为包含大小写字母和#@_至少其中一个的10-20位字符串
+                                    </span>
+                                }
+                                <div className="flex flex-row justify-between space-x-[50px]">
+                                    <div className="flex flex-col w-full">
+                                        <div className="mb-[5px]">
+                                            <span className="label-text p-[0px]">open_id<span className="text-error"></span></span>
+                                        </div>
+                                        <input value={openId} onFocus={inputFocus} onChange={(event: any) => { setOpenId(event.target.value) }} type="text" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
                                     </div>
                                 </div>
                                 <div className="w-full">
-                                    <button className="w-full text-white text-[14px] mt-[5px] h-[35px] rounded-[4px] bg-success hover:bg-[#2ac090]">
+                                    <button onClick={saveAccount} className="w-full text-white text-[14px] mt-[5px] h-[35px] rounded-[4px] bg-success hover:bg-[#2ac090]">
                                         保存
                                     </button>
                                 </div>

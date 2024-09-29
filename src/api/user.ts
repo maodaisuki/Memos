@@ -1,4 +1,5 @@
 'use server'
+import Account from "@/interfaces/account";
 import instance from "./instance";
 import { cookies } from "next/headers";
 
@@ -90,9 +91,39 @@ async function getUserHeatmapData(userId: number, year: number) {
     return { data, error };
 }
 
+async function updateUser(account: Account) {
+    console.log(account);
+    const { data, error } = await instance.put(
+        `/User`,
+        {
+            userId: account.userId,
+            password: (account.password == "" || account.password == undefined) ? null : account.password,
+            email: (account.email == "" || account.email == undefined) ? null : account.email,
+            open_id: (account.open_id == "" || account.open_id == undefined) ? null : account.open_id,
+            currentPassword: account.currentPassword
+        },
+        {
+            headers: header
+        },
+    )
+    .then((res) => {
+        const data = res.data;
+        const error = null;
+        return { data, error };
+    })
+    .catch((e) => {
+        console.log(`[更新用户信息错误]: ${e.message}`);
+        const data = null;
+        const error = e.message;
+        return { data, error };
+    });
+    return { data, error };
+}
+
 export {
     getUserById,
     getUserByUsername,
     getUserAnalysisData,
-    getUserHeatmapData
+    getUserHeatmapData,
+    updateUser
 }
