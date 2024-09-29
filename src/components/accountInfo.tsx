@@ -331,8 +331,11 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                                 </div>
                                 <div className="flex flex-row justify-between space-x-[50px]">
                                     <div className="flex flex-col w-full">
-                                        <div className="mb-[5px]">
-                                            <span className="label-text p-[0px]">电子邮件</span>
+                                        <div className="mb-[5px] flex flex-row">
+                                            <span className="label-text p-[0px]">电子邮件</span>&nbsp;
+                                            <div className="tooltip leading-[20px] align-center" data-tip="用于找回密码">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="feather feather-help-circle"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                            </div>
                                         </div>
                                         <input value={email} onFocus={inputFocus}  onChange={(event: any) => { setEmail(event.target.value) }} type="email" placeholder="example@example.com" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
                                     </div>
