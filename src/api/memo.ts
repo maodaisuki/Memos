@@ -2,6 +2,7 @@
 import { Memo } from "@/interfaces/memo";
 import instance from "./instance";
 import { cookies } from "next/headers";
+import { queryParser } from "@/lib/queryParser";
 
 const header = {
     'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
@@ -65,8 +66,14 @@ async function postMemo(memo: Memo) {
 }
 
 async function getMemoList(page: number, limit: number = 20, query: string = "") {
-    const { data, error } = await instance.get(
-        `/Memo/trends?page=${page}&pageSize=${limit}&query=${encodeURIComponent(query)}`,
+    const queryMap = queryParser(query);
+    // 添加属性
+    queryMap.page = page;
+    queryMap.pageSize = limit;
+    // TODO 修改前后台接口
+    const { data, error } = await instance.post(
+        `/Memo/trends`,
+        queryMap,
         {
             headers: header
         }
@@ -93,7 +100,13 @@ async function getMemoById(id: number) {
         }
     )
     .then((res) => {
-        const data = res.data;
+        let data;
+        if(res.data.memo == null) {
+            data = null;
+        }
+        else {
+            data = res.data;
+        }
         const error = null;
         return { data, error }
     })

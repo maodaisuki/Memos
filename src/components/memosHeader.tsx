@@ -12,7 +12,7 @@ type Props = {
 }
 
 function copyLink(memoId: number) {
-    const memoUrl = process.env.NEXT_PUBLIC_API_URL + `/mine?memoId=${memoId}`
+    const memoUrl = process.env.NEXT_PUBLIC_BASE_URL + `/mine/${memoId}`
     navigator.clipboard.writeText(memoUrl).then(() => {
         document.getElementById("memoDropdownMenu")?.blur();
         toast.success("复制链接成功");

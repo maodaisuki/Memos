@@ -24,7 +24,6 @@ const SearchPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       const initialListTemp = await getMemoList(1, undefined, query);
-      console.log(searchParams.get('query'));
       const usernameTemp = await getUsername() || '';
       const currentUserTemp = await (await getUserByUsername(usernameTemp)).data?.account || null;
       setInitialList(initialListTemp.data);

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { getMemoList, postMemo } from "@/api/memo"
 import AccountCard from "./account"
 import toast, { Toaster } from "react-hot-toast"
+import { queryParser } from "@/lib/queryParser"
 
 type Props = {
 	initialList: Array<Memo>,
@@ -23,6 +24,7 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 	const [memo, setMemo] = useState("");
 	const [isMemoabled, setIsMemoabled] = useState(false);
 	const tagRegex = /#([^#]+)#/g;
+	const [queryMap, setQueryMap] = useState<any>();
 	function textAreaHandle(event: any) {
 		setMemo(event.target.value);
 		if (event.target.value !== "") {
@@ -85,7 +87,9 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 
 	useEffect(() => {
 		setMemoList(initialList);
-	}, [initialList])
+		const queryMapTemp = queryParser(query);
+		setQueryMap(queryMapTemp);
+	}, [initialList, query])
 
 	return (
 		<>
@@ -109,13 +113,33 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 						</button>
 					</div>
 				</div>
-				<div className="w-full flex flex-row items-center mt-[5px] space-x-2 px-[10px] text-sm">
+				<div className="w-full flex flex-row items-center mt-[5px] px-[10px] text-sm">
 					{
-						query !== "" && <div className="bg-base-200 rounded-[3px] text-[12px] p-[4px] mr-[2px] text-info">
+						queryMap && <div className="flex flex-row flex-wrap w-full">
 							{
-								tagRegex.test(query) ?
-								<span>Tag: {query}</span>
-								: <span>Content: {query}</span>
+								queryMap.content.length > 0 && <div className="bg-base-200 rounded-[3px] text-[12px] p-[4px] mt-[5px] mr-[10px] text-info truncate">
+									<span>Content: {queryMap.content}</span>
+								</div>
+							}
+							{
+								queryMap.username.length > 0 && <div className="bg-base-200 rounded-[3px] text-[12px] p-[4px] mt-[5px] mr-[10px] text-info truncate">
+									<span>Username: {queryMap.username}</span>
+								</div>
+							}
+							{
+								queryMap.userId.length > 0 && <div className="bg-base-200 rounded-[3px] text-[12px] p-[4px] mt-[5px] mr-[10px] text-info truncate">
+									<span>UserId: {queryMap.userId}</span>
+								</div>
+							}
+							{
+								queryMap.tag.length > 0 && <div className="bg-base-200 rounded-[3px] text-[12px] p-[4px] mt-[5px] mr-[10px] text-info truncate">
+									<span>Tag: {queryMap.tag}</span>
+								</div>
+							}
+							{
+								queryMap.memoId.length > 0 && <div className="bg-base-200 rounded-[3px] text-[12px] p-[4px] mt-[5px] mr-[10px] text-info truncate">
+									<span>MemoId: {queryMap.memoId}</span>
+								</div>
 							}
 						</div>
 					}
