@@ -127,7 +127,7 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 								</div>
 							}
 							{
-								queryMap.userId.length > 0 && <div className="bg-base-200 rounded-[3px] text-[12px] p-[4px] mt-[5px] mr-[10px] text-info truncate">
+								queryMap.userId !== -1 && <div className="bg-base-200 rounded-[3px] text-[12px] p-[4px] mt-[5px] mr-[10px] text-info truncate">
 									<span>UserId: {queryMap.userId}</span>
 								</div>
 							}
@@ -137,7 +137,7 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 								</div>
 							}
 							{
-								queryMap.memoId.length > 0 && <div className="bg-base-200 rounded-[3px] text-[12px] p-[4px] mt-[5px] mr-[10px] text-info truncate">
+								queryMap.memoId !== -1 && <div className="bg-base-200 rounded-[3px] text-[12px] p-[4px] mt-[5px] mr-[10px] text-info truncate">
 									<span>MemoId: {queryMap.memoId}</span>
 								</div>
 							}

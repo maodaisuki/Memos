@@ -158,6 +158,10 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
             setIsCurrentPasswordDataError(true);
             return;
         }
+        else if(data.statusCode == 402) {
+            setIsEmailError(true);
+            return;
+        }
         else {
             toast.error("远端服务器错误");
         }
@@ -170,10 +174,10 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                     <div className="w-full">
                         <div className="w-full flex flex-row justify-between items-center space-x-2 w-full">
                             <div className="text-sm truncate">
-                                <button className="flex flex-row hover:text-success">
-                                <span className="leading-[20px]">@{username} 的活动记录&nbsp;</span>
+                                <a className="flex flex-row hover:text-success" href={`/search?query=username:${username}`}>
+                                    <span className="leading-[20px]">@{username} 的活动记录&nbsp;</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-external-link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                                </button>
+                                </a>
                             </div>
                             <div className="text-sm">
                                 <select name="year" value={selectedYear} id="year-select" className="hover:cursor-pointer w-[60px] h-[20px] bg-transparent border-0 outline-none" onChange={(e) => { setIsLoading(true); setSelectedYear(parseInt(e.target.value, 10)) }}>
@@ -268,10 +272,10 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                     : <div className="w-full">
                         <div className="w-full flex flex-row justify-between items-center space-x-2 w-full">
                             <div className="text-sm truncate">
-                                <button className="flex flex-row hover:text-success">
+                                <a className="flex flex-row hover:text-success" href={`/search?query=username:${username}`}>
                                     <span className="leading-[20px]">@{username} 的活动记录&nbsp;</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-external-link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                                </button>
+                                </a>
                             </div>
                             <div className="text-sm">
                                 <select name="year" value={selectedYear} id="year-select" className="hover:cursor-pointer w-[60px] h-[20px] bg-transparent border-0 outline-none" onChange={(e) => { setIsLoading(true); setSelectedYear(parseInt(e.target.value, 10)) }}>
@@ -349,7 +353,7 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                                 {
                                     isEmailError &&         
                                     <span className="w-full label-text-alt flex flex-row mt-[10px] justify-start text-error">
-                                        请输入正确的邮箱地址
+                                        邮箱格式错误或已被绑定
                                     </span>
                                 }
                                 {

@@ -1,7 +1,7 @@
 import QueryMap from "@/interfaces/query";
 
 const contentRegex1 = /(?<=content:).*?(?=\s)/;
-const contentRegex2 = /(?!userId:|username:|memoId:|content:)(?<=\s).*?(?=\s)/;
+const contentRegex2 = /(?!userId:|username:|memoId:|content:|tag:)(?<=\s).*?(?=\s)/;
 const usernameRegex = /(?<=username:).*?(?=\s)/;
 const userIdRegex = /(?<=userId:).*?(?=\s)/;
 const tagRegex = /(?<=tag:).*?(?=\s)/;
