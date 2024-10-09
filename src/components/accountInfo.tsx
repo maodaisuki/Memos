@@ -169,9 +169,7 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
             toast.error("远端服务器错误");
         }
     }
-    if(isCurrentUser && currentUser == null) {
-        return <></>
-    }
+
     return (
         <div className="w-full mt-[5px] p-[10px] flex flex-col">
             <Toaster />
