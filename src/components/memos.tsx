@@ -12,6 +12,7 @@ import { updateMemo } from "@/api/memo";
 type Props = {
     memo: Memo,
     currentUserId: number,
+    onDelete: Function
 }
 
 const convertDate = (utc: string) => {
@@ -19,7 +20,7 @@ const convertDate = (utc: string) => {
     return date.toLocaleString();
 }
 
-const MemosCard = ({ memo, currentUserId }: Props) => {
+const MemosCard = ({ memo, currentUserId, onDelete }: Props) => {
     const [isOnEdit, setIsOnEdit] = useState(false);
     const [eidtedMemo, setEditedMemo] = useState(memo.content.slice());
     const onEdit = () => {
@@ -91,7 +92,7 @@ const MemosCard = ({ memo, currentUserId }: Props) => {
     if (!isOnEdit) {
         return (
             <div className="w-full flex flex-col bg-base-200 rounded-[4px] p-[15px]">
-                <MemosHeader createdTime={convertDate(memo.createdDate!.toString())} memoId={memo.memoId!} memoContent={memo.content} onEdit={onEdit} userId={memo.userId} currentUserId={currentUserId} />
+                <MemosHeader createdTime={convertDate(memo.createdDate!.toString())} memo={memo} onEdit={onEdit} userId={memo.userId} currentUserId={currentUserId} onDelete={onDelete}/>
                 <MemosBody content={memo.content} />
                 <MemosFooter username={data?.data.account.username} userId={memo.userId} />
             </div>

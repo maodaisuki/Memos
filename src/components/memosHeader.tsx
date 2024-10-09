@@ -1,14 +1,14 @@
-import { deleteMemoById } from "@/api/memo";
-import { MouseEventHandler, useRef } from "react";
+import Memo from "@/interfaces/memo";
+import { MouseEventHandler } from "react";
 import toast from "react-hot-toast";
 
 type Props = {
     createdTime: string,
-    memoId: number,
-    memoContent: string,
+    memo: Memo,
     onEdit: MouseEventHandler<HTMLLIElement>,
     currentUserId: number,
-    userId: number
+    userId: number,
+    onDelete: Function
 }
 
 const copyLink = (memoId: number) => {
@@ -26,27 +26,9 @@ const copyContent = (memoContent: string) => {
     });
 }
 
-const deleteMemo = async (memoId: number, ref: any) => {
-    const { data } = await deleteMemoById(memoId);
-    if (data !== null) {
-        if (data.count !== 0) {
-            ref.current.parentNode.remove();
-            toast.success("删除成功");
-        }
-        else {
-            toast.error("删除失败，请检查网络重试");
-        }
-    }
-    else {
-        toast.error("删除失败，请检查网络重试");
-    }
-}
-
-const MemosHeader = ({ createdTime, memoId, memoContent, onEdit, userId, currentUserId }: Props) => {
-    const parentRef = useRef(null);
-
+const MemosHeader = ({ createdTime, memo, onEdit, userId, currentUserId, onDelete }: Props) => {
     return (
-        <div ref={parentRef} className="W-full flex flex-row mb-[12px] text-[12px] justify-between items-center">
+        <div className="W-full flex flex-row mb-[12px] text-[12px] justify-between items-center">
             <div className="text-baseline">
                 {createdTime}
             </div>
@@ -59,10 +41,10 @@ const MemosHeader = ({ createdTime, memoId, memoContent, onEdit, userId, current
                         currentUserId == userId && <li onClick={onEdit}><a>编辑</a></li>
                     }
                     {/* <li><a>生成分享图</a></li> */}
-                    <li onClick={() => { copyContent(memoContent); }}><a>复制内容</a></li>
-                    <li onClick={() => { copyLink(memoId); }}><a>复制链接</a></li>
+                    <li onClick={() => { copyContent(memo.content); }}><a>复制内容</a></li>
+                    <li onClick={() => { copyLink(memo.memoId!); }}><a>复制链接</a></li>
                     {
-                        currentUserId == userId && <li className="text-error" onClick={async () => { await deleteMemo(memoId, parentRef) }}><a>删除</a></li>
+                        currentUserId == userId && <li className="text-error" onClick={async () => { await onDelete(memo.memoId) }}><a>删除</a></li>
                     }
                 </ul>
             </div>

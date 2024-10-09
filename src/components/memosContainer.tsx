@@ -4,7 +4,7 @@ import Memo from "@/interfaces/memo"
 import MemosCard from "./memos"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
-import { getMemoList, postMemo } from "@/api/memo"
+import { deleteMemoById, getMemoList, postMemo } from "@/api/memo"
 import AccountCard from "./account"
 import toast, { Toaster } from "react-hot-toast"
 import { queryParser } from "@/lib/queryParser"
@@ -77,6 +77,24 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 			setPage(page + 1);
 		}, 700);
 	};
+	
+	const deleteMemo = async (memoId: number) => {
+		const { data } = await deleteMemoById(memoId);
+		if (data !== null) {
+			if (data.count !== 0) {
+				setMemoList(prevMemoList => 
+					prevMemoList.filter(memo => memo.memoId !== memoId)
+				);
+				toast.success("删除成功");
+			}
+			else {
+				toast.error("删除失败，请检查网络重试");
+			}
+		}
+		else {
+			toast.error("删除失败，请检查网络重试");
+		}
+	}
 
 	useEffect(() => {
 		if (inView) {
@@ -148,7 +166,7 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 			<div id="memoContainer" className="w-full flex flex-col mt-[10px] mb-[50px] space-y-3 px-[10px]">
 				{
 					memoList.map((memo, index) => (
-						<MemosCard key={index} memo={memo} currentUserId={userId} />
+						<MemosCard key={memo.memoId} memo={memo} currentUserId={userId} onDelete={deleteMemo}/>
 					))
 				}
 				{
