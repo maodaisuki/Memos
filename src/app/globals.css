@@ -5,13 +5,11 @@
 @import url(./github-markdown.css);
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .react-activity-calendar__scroll-container {
-  padding-bottom: 10px;
+    padding-bottom: 10px;
 }
 
-@layer utilities {
-
-}
+@layer utilities {}

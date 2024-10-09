@@ -14,17 +14,17 @@ async function getUserById(id: number) {
             headers: header
         }
     )
-    .then((res) => {
-        const data = res.data;
-        const error = null;
-        return { data, error }
-    })
-    .catch((e) => {
-        console.log(`[获取用户信息错误]: ${e.message}`);
-        const data = null;
-        const error = e.message;
-        return { data, error }
-    });
+        .then((res) => {
+            const data = res.data;
+            const error = null;
+            return { data, error }
+        })
+        .catch((e) => {
+            console.log(`[获取用户信息错误]: ${e.message}`);
+            const data = null;
+            const error = e.message;
+            return { data, error }
+        });
     return { data, error };
 }
 
@@ -35,17 +35,17 @@ async function getUserByUsername(username: string) {
             headers: header
         }
     )
-    .then((res) => {
-        const data = res.data;
-        const error = null;
-        return { data, error }
-    })
-    .catch((e) => {
-        console.log(`[获取用户信息错误]: ${e.message}`);
-        const data = null;
-        const error = e.message;
-        return { data, error }
-    });
+        .then((res) => {
+            const data = res.data;
+            const error = null;
+            return { data, error }
+        })
+        .catch((e) => {
+            console.log(`[获取用户信息错误]: ${e.message}`);
+            const data = null;
+            const error = e.message;
+            return { data, error }
+        });
     return { data, error };
 }
 
@@ -56,17 +56,17 @@ async function getUserAnalysisData(userId: number, year: number) {
             headers: header
         }
     )
-    .then((res) => {
-        const data = res.data;
-        const error = null;
-        return { data, error };
-    })
-    .catch((e) => {
-        console.log(`[获取用户信息错误]: ${e.message}`);
-        const data = null;
-        const error = e.message;
-        return { data, error };
-    });
+        .then((res) => {
+            const data = res.data;
+            const error = null;
+            return { data, error };
+        })
+        .catch((e) => {
+            console.log(`[获取用户信息错误]: ${e.message}`);
+            const data = null;
+            const error = e.message;
+            return { data, error };
+        });
     return { data, error };
 }
 
@@ -77,17 +77,17 @@ async function getUserHeatmapData(userId: number, year: number) {
             headers: header
         }
     )
-    .then((res) => {
-        const data = res.data;
-        const error = null;
-        return { data, error };
-    })
-    .catch((e) => {
-        console.log(`[获取用户信息错误]: ${e.message}`);
-        const data = null;
-        const error = e.message;
-        return { data, error };
-    });
+        .then((res) => {
+            const data = res.data;
+            const error = null;
+            return { data, error };
+        })
+        .catch((e) => {
+            console.log(`[获取用户信息错误]: ${e.message}`);
+            const data = null;
+            const error = e.message;
+            return { data, error };
+        });
     return { data, error };
 }
 
@@ -106,17 +106,17 @@ async function updateUser(account: Account) {
             headers: header
         },
     )
-    .then((res) => {
-        const data = res.data;
-        const error = null;
-        return { data, error };
-    })
-    .catch((e) => {
-        console.log(`[更新用户信息错误]: ${e.message}`);
-        const data = null;
-        const error = e.message;
-        return { data, error };
-    });
+        .then((res) => {
+            const data = res.data;
+            const error = null;
+            return { data, error };
+        })
+        .catch((e) => {
+            console.log(`[更新用户信息错误]: ${e.message}`);
+            const data = null;
+            const error = e.message;
+            return { data, error };
+        });
     return { data, error };
 }
 

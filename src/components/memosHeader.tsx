@@ -1,17 +1,17 @@
 import { deleteMemoById } from "@/api/memo";
-import PropTypes from "prop-types";
-import { MouseEventHandler, MutableRefObject, useEffect, useRef, useState } from "react";
+import { MouseEventHandler, useRef } from "react";
 import toast from "react-hot-toast";
 
 type Props = {
     createdTime: string,
     memoId: number,
+    memoContent: string,
     onEdit: MouseEventHandler<HTMLLIElement>,
     currentUserId: number,
     userId: number
 }
 
-function copyLink(memoId: number) {
+const copyLink = (memoId: number) => {
     const memoUrl = process.env.NEXT_PUBLIC_BASE_URL + `/mine/${memoId}`
     navigator.clipboard.writeText(memoUrl).then(() => {
         document.getElementById("memoDropdownMenu")?.blur();
@@ -19,10 +19,17 @@ function copyLink(memoId: number) {
     });
 }
 
-async function deleteMemo(memoId: number, ref: any) {
+const copyContent = (memoContent: string) => {
+    navigator.clipboard.writeText(memoContent).then(() => {
+        document.getElementById("memoDropdownMenu")?.blur();
+        toast.success("复制内容成功");
+    });
+}
+
+const deleteMemo = async (memoId: number, ref: any) => {
     const { data } = await deleteMemoById(memoId);
-    if(data !== null) {
-        if(data.count !== 0) {
+    if (data !== null) {
+        if (data.count !== 0) {
             ref.current.parentNode.remove();
             toast.success("删除成功");
         }
@@ -35,13 +42,13 @@ async function deleteMemo(memoId: number, ref: any) {
     }
 }
 
-const MemosHeader = ({ createdTime, memoId, onEdit, userId, currentUserId }: Props) => {
+const MemosHeader = ({ createdTime, memoId, memoContent, onEdit, userId, currentUserId }: Props) => {
     const parentRef = useRef(null);
 
     return (
         <div ref={parentRef} className="W-full flex flex-row mb-[12px] text-[12px] justify-between items-center">
             <div className="text-baseline">
-                { createdTime }
+                {createdTime}
             </div>
             <div className="dropdown dropdown-bottom dropdown-end">
                 <div tabIndex={0} role="button" className="text-baseline align-middle">
@@ -51,10 +58,11 @@ const MemosHeader = ({ createdTime, memoId, onEdit, userId, currentUserId }: Pro
                     {
                         currentUserId == userId && <li onClick={onEdit}><a>编辑</a></li>
                     }
-                    <li><a>生成分享图</a></li>
-                    <li onClick={() => {copyLink(memoId);}}><a>复制链接</a></li>
+                    {/* <li><a>生成分享图</a></li> */}
+                    <li onClick={() => { copyContent(memoContent); }}><a>复制内容</a></li>
+                    <li onClick={() => { copyLink(memoId); }}><a>复制链接</a></li>
                     {
-                        currentUserId == userId && <li className="text-error" onClick={async () => {await deleteMemo(memoId, parentRef)}}><a>删除</a></li>
+                        currentUserId == userId && <li className="text-error" onClick={async () => { await deleteMemo(memoId, parentRef) }}><a>删除</a></li>
                     }
                 </ul>
             </div>

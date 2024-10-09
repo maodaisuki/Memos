@@ -2,7 +2,7 @@
 import MemosHeader from "./memosHeader";
 import MemosBody from "./memosBody";
 import MemosFooter from "./memosFooter";
-import { Memo } from "@/interfaces/memo";
+import Memo from "@/interfaces/memo";
 import useSWR from "swr";
 import { getUserById } from "@/api/user";
 import { useEffect, useState } from "react";
@@ -14,7 +14,7 @@ type Props = {
     currentUserId: number,
 }
 
-function convertDate(utc: string) {
+const convertDate = (utc: string) => {
     const date = new Date(utc);
     return date.toLocaleString();
 }
@@ -26,18 +26,18 @@ const MemosCard = ({ memo, currentUserId }: Props) => {
         document.getElementById("memoDropdownMenu")!.blur();
         setIsOnEdit(true);
     }
-    const { data, error } = useSWR(`/api/user/${memo.userId}`, async () => {return await getUserById(memo.userId)});
+    const { data, error } = useSWR(`/api/user/${memo.userId}`, async () => { return await getUserById(memo.userId) });
     const [isMemoabled, setIsMemoabled] = useState(true);
 
-	function textAreaHandle(event: any) {
+    function textAreaHandle(event: any) {
         setEditedMemo(event.target.value);
-		if (event.target.value !== "") {
-			setIsMemoabled(true);
-		}
-		else {
-			setIsMemoabled(false);
-		}
-	}
+        if (event.target.value !== "") {
+            setIsMemoabled(true);
+        }
+        else {
+            setIsMemoabled(false);
+        }
+    }
 
     useEffect(() => {
         setIsOnEdit(false);
@@ -46,54 +46,54 @@ const MemosCard = ({ memo, currentUserId }: Props) => {
     useEffect(() => {
         setEditedMemo(memo.content);
         if (eidtedMemo !== "") {
-			setIsMemoabled(true);
-		}
-		else {
-			setIsMemoabled(false);
-		}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+            setIsMemoabled(true);
+        }
+        else {
+            setIsMemoabled(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOnEdit, memo.content])
-    
-	async function editMemo() {
+
+    async function editMemo() {
         // console.log(memo.createdDate);
         const tagRegex = /#([^#]+)#/g;
-		const matchTags = eidtedMemo.match(tagRegex);
-		if(matchTags !== null) {
-			matchTags.forEach((tag, index) => {
-				matchTags[index] = tag.slice(1, -1);
-			});
-		}
-		const memoBody = {
+        const matchTags = eidtedMemo.match(tagRegex);
+        if (matchTags !== null) {
+            matchTags.forEach((tag, index) => {
+                matchTags[index] = tag.slice(1, -1);
+            });
+        }
+        const memoBody = {
             memoId: memo.memoId,
-			content: eidtedMemo,
-			tags: matchTags as Array<string>,
-			userId: memo.userId,
+            content: eidtedMemo,
+            tags: matchTags as Array<string>,
+            userId: memo.userId,
             createdDate: memo.createdDate,
             lastModifiedDate: new Date(),
-		};
+        };
         const { data } = await updateMemo(memoBody);
-		if (data !== null) {
+        if (data !== null) {
             setIsOnEdit(false);
             memo.content = eidtedMemo;
             toast.success("更新 Memo 成功");
-		}
-		else {
-			// console.log("发送失败");
-			toast.error("网络错误，请连接网络后再试");
-		}
-	}
+        }
+        else {
+            // console.log("发送失败");
+            toast.error("网络错误，请连接网络后再试");
+        }
+    }
 
-    if(!data || error) {
+    if (!data || error) {
         return (
             <></>
         );
     }
-    if(!isOnEdit) {
+    if (!isOnEdit) {
         return (
             <div className="w-full flex flex-col bg-base-200 rounded-[4px] p-[15px]">
-                <MemosHeader createdTime={convertDate(memo.createdDate!.toString())} memoId={memo.memoId!} onEdit={onEdit} userId={memo.userId} currentUserId={currentUserId}/>
+                <MemosHeader createdTime={convertDate(memo.createdDate!.toString())} memoId={memo.memoId!} memoContent={memo.content} onEdit={onEdit} userId={memo.userId} currentUserId={currentUserId} />
                 <MemosBody content={memo.content} />
-                <MemosFooter username={data?.data.account.username} userId={memo.userId}/>
+                <MemosFooter username={data?.data.account.username} userId={memo.userId} />
             </div>
         )
     }

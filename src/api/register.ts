@@ -10,18 +10,18 @@ async function register(auth: Auth) {
             password: auth.password
         },
     )
-    .then((res: any) => {
-        if(res.data.account !== null) {
-            return true;
-        }
-        else {
+        .then((res: any) => {
+            if (res.data.account !== null) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        })
+        .catch((e) => {
+            console.log(`[注册错误]: ${e}`);
             return false;
-        }
-    })
-    .catch((e) => {
-        console.log(`[注册错误]: ${e}`);
-        return false;
-    })
+        })
 }
 
 export {

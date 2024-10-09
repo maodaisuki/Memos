@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 const SearchBar = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const router = useRouter();
-    function inSearch(event: any) {
-        setSearchQuery(event.target.value);  
+    const inSearch = (event: any) => {
+        setSearchQuery(event.target.value);
     }
 
-    function onKeyUp(event: any) {
+    const onKeyUp = (event: any) => {
         var e = event || window.event;
-        if(e && e.keyCode == 13) {
+        if (e && e.keyCode == 13) {
             var query = event.target.value;
             router.push(`/search?query=${encodeURIComponent(query)}`);
         }

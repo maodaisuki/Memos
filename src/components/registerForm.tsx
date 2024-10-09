@@ -18,38 +18,38 @@ const RegisterForm = () => {
     const usernameRegex = /^[a-zA-Z0-9]{2,15}$/;
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[#@_])[a-zA-Z0-9#@_]{10,20}$/;
     const router = useRouter();
-    function updateUsername(event: any) {
+    const updateUsername = (event: any) => {
         setUsername(event.target.value);
     }
 
-    function updatePassword1(event: any) {
+    const updatePassword1 = (event: any) => {
         setPassword1(event.target.value);
     }
 
-    function updatePassword2(event: any) {
+    const updatePassword2 = (event: any) => {
         setPassword2(event.target.value);
     }
-    
-    function inputFocus() {
+
+    const inputFocus = () => {
         setPasswordError(false);
         setUsernameError(false);
         setPasswordEqual(true);
     }
 
-    async function registerAccount() {
-        if(password1 !== password2) {
+    const registerAccount = async () => {
+        if (password1 !== password2) {
             setPasswordEqual(false);
             return;
         }
-        if(!passwordRegex.test(password1)) {
+        if (!passwordRegex.test(password1)) {
             setPasswordError(true);
             return;
         }
-        if(!usernameRegex.test(username)) {
+        if (!usernameRegex.test(username)) {
             setUsernameError(true);
             return;
         }
-        if(!isRead) {
+        if (!isRead) {
             setIsReadError(true);
             return;
         }
@@ -57,7 +57,7 @@ const RegisterForm = () => {
             username: username,
             password: password1
         }
-        if(await register(auth)) {
+        if (await register(auth)) {
             setIsRedirecting(true);
             toast.success("注册成功，3秒后跳转至登录页", {
                 duration: 2500
@@ -85,7 +85,7 @@ const RegisterForm = () => {
                     </label>
                 </div>
                 {
-                    isUsernameError &&         
+                    isUsernameError &&
                     <span className="w-full label-text-alt flex flex-row my-[5px] justify-end text-error">
                         用户名位只包含大小写字母和数字的2-15位字符串
                     </span>
@@ -109,13 +109,13 @@ const RegisterForm = () => {
                     </label>
                 </div>
                 {
-                    !isPasswordEqual &&         
+                    !isPasswordEqual &&
                     <span className="w-full label-text-alt flex flex-row mt-[5px] justify-end text-error">
                         密码不一致
                     </span>
                 }
                 {
-                    isPasswordError &&         
+                    isPasswordError &&
                     <span className="w-full label-text-alt flex flex-row mt-[5px] justify-end text-error">
                         密码为包含大小写字母和#@_至少其中一个的10-20位字符串
                     </span>
@@ -124,13 +124,13 @@ const RegisterForm = () => {
                     <div className="w-full text-start mb-[5px]">
                         <div className="form-control">
                             <label className="label cursor-pointer">
-                                <input type="checkbox" className="checkbox-success checkbox [--chkfg:white] checkbox-xs" onChange={() => {setIsReadError(false); setIsRead(!isRead);}} checked={isRead}/>
+                                <input type="checkbox" className="checkbox-success checkbox [--chkfg:white] checkbox-xs" onChange={() => { setIsReadError(false); setIsRead(!isRead); }} checked={isRead} />
                                 &nbsp;&nbsp;
                                 <span className="w-full text-start label-text">我已经阅读并同意<a className="link link-hover text-success" href="#"> MAOJI 用户协议</a></span>
                             </label>
                         </div>
                         {
-                            isReadError &&         
+                            isReadError &&
                             <span className="w-full label-text-alt flex flex-row mb-[5px] justify-start text-error">
                                 勾选此项
                             </span>

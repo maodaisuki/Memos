@@ -1,6 +1,6 @@
 'use client'
 
-import { Memo } from "@/interfaces/memo"
+import Memo from "@/interfaces/memo"
 import MemosCard from "./memos"
 import { useInView } from "react-intersection-observer"
 import { useEffect, useState } from "react"
@@ -25,7 +25,7 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 	const [isMemoabled, setIsMemoabled] = useState(false);
 	const tagRegex = /#([^#]+)#/g;
 	const [queryMap, setQueryMap] = useState<any>();
-	function textAreaHandle(event: any) {
+	const textAreaHandle = (event: any) => {
 		setMemo(event.target.value);
 		if (event.target.value !== "") {
 			setIsMemoabled(true);
@@ -34,7 +34,7 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 			setIsMemoabled(false);
 		}
 	}
-	async function sendMemo() {
+	const sendMemo = async () => {
 		const matchTags = memo.match(tagRegex);
 		if (matchTags !== null) {
 			matchTags.forEach((tag, index) => {
@@ -58,7 +58,7 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 		}
 	}
 
-	async function loadMore() {
+	const loadMore = async () => {
 		await setTimeout(async () => {
 			if (!hasMore) return;
 			const moreList = await getMemoList(page, undefined, query);
@@ -105,7 +105,7 @@ const MemosContainer = ({ initialList, userId, username, query }: Props) => {
 				</div>
 				<div className="w-full flex flex-row justify-between items-center mt-[5px] space-x-2 px-[10px]">
 					<div className="grow flex flex-row">
-						<AccountCard userId={userId} username={username}/>
+						<AccountCard userId={userId} username={username} />
 					</div>
 					<div className="flex-none">
 						<button disabled={!isMemoabled} onClick={async () => { await sendMemo() }} className="btn btn-sm no-animation text-white disabled:bg-stone-400 bg-success hover:bg-[#2ac090] hover:cursor-pointer rounded-[4px] text-sm">

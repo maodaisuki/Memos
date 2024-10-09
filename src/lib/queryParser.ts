@@ -11,7 +11,7 @@ function queryParser(query: string) {
     query = ' ' + query + ' ';
     // 只匹配第一次
     let content = '';
-    if(query.match(contentRegex2)) {
+    if (query.match(contentRegex2)) {
         content = query.match(contentRegex2) ? query.match(contentRegex2)![0] : '';
     }
     else {

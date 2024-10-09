@@ -57,7 +57,7 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {
-                          type: 'shadow'
+                            type: 'shadow'
                         }
                     },
                     grid: {
@@ -99,7 +99,7 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                 setHeatmapData(memosHeatmapData.data.heatmapData);
                 // console.log(heatmapData);
                 setGraphOption(analysisOptionTemp);
-                if(isCurrentUser) {
+                if (isCurrentUser) {
                     const currentUserTemp = await getUserById(userId);
                     setCurrentUser(currentUserTemp.data.account);
                     setEmail(currentUserTemp.data.account?.email ?? "");
@@ -115,7 +115,7 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
     const changeTheme = () => {
         localStorage.setItem('theme', localStorage.getItem('theme') == 'light' ? 'dark' : 'light');
         document.getElementById("rootHtml")?.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
-        setTheme(localStorage.getItem('theme') || 'light');   
+        setTheme(localStorage.getItem('theme') || 'light');
     }
 
     const inputFocus = () => {
@@ -127,19 +127,19 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
     }
 
     const saveAccount = async () => {
-        if(currentPassword == "") {
+        if (currentPassword == "") {
             setIsCurrentPasswordError(true);
             return;
         }
-        if(!emailRegex.test(email) && email !== "") {
+        if (!emailRegex.test(email) && email !== "") {
             setIsEmailError(true);
             return;
         }
-        if(password1 !== password2) {
+        if (password1 !== password2) {
             setIsPasswordError(true);
             return;
         }
-        if(!passwordRegex.test(password1) && password1 !== "" && password2 !== "") {
+        if (!passwordRegex.test(password1) && password1 !== "" && password2 !== "") {
             setIsPasswordFormatError(true);
             return;
         }
@@ -151,20 +151,23 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
             open_id: openId
         }
         const { data, error } = await updateUser(account);
-        if(data.statusCode == 200) {
+        if (data.statusCode == 200) {
             toast.success("修改成功");
         }
-        else if(data.statusCode == 401) {
+        else if (data.statusCode == 401) {
             setIsCurrentPasswordDataError(true);
             return;
         }
-        else if(data.statusCode == 402) {
+        else if (data.statusCode == 402) {
             setIsEmailError(true);
             return;
         }
         else {
             toast.error("远端服务器错误");
         }
+    }
+    if(isCurrentUser && currentUser == null) {
+        return <></>
     }
     return (
         <div className="w-full mt-[5px] p-[10px] flex flex-col">
@@ -195,7 +198,7 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                                     tooltip: {
                                         trigger: 'axis',
                                         axisPointer: {
-                                          type: 'shadow'
+                                            type: 'shadow'
                                         }
                                     },
                                     grid: {
@@ -252,10 +255,10 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                                 colorScheme={theme}
                                 renderBlock={(block, activity) =>
                                     React.cloneElement(block, {
-                                      'data-tooltip-id': 'react-tooltip',
-                                      'data-tooltip-html': `${activity.count} Memos on ${activity.date}`
+                                        'data-tooltip-id': 'react-tooltip',
+                                        'data-tooltip-html': `${activity.count} Memos on ${activity.date}`
                                     })
-                                  }
+                                }
                             />
                             <ReactTooltip id="react-tooltip" />
                         </div>
@@ -268,7 +271,7 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                             </div>
                         </div> */}
                     </div>
-                    </>
+                </>
                     : <div className="w-full">
                         <div className="w-full flex flex-row justify-between items-center space-x-2 w-full">
                             <div className="text-sm truncate">
@@ -307,10 +310,10 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                                 colorScheme={theme}
                                 renderBlock={(block, activity) =>
                                     React.cloneElement(block, {
-                                      'data-tooltip-id': 'react-tooltip',
-                                      'data-tooltip-html': `${activity.count} Memos on ${activity.date}`
+                                        'data-tooltip-id': 'react-tooltip',
+                                        'data-tooltip-html': `${activity.count} Memos on ${activity.date}`
                                     })
-                                  }
+                                }
                             />
                             <ReactTooltip id="react-tooltip" />
                         </div>
@@ -325,115 +328,115 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                     </div>
             }
             {
-                isCurrentUser ? 
+                isCurrentUser ?
                     <>
-                    <div className="w-full mt-[20px] flex flex-col">
-                        <div className="w-full flex flex-col bg-base-200 rounded-[4px] p-[15px] text-sm">
-                            <div className="space-y-[10px]">
-                                <div className="pb-[5px] mb-[5px] text-lg">
-                                    账号设置
-                                </div>
-                                <div className="flex flex-row justify-between space-x-[50px]">
-                                    <div className="flex flex-col w-full">
-                                        <div className="mb-[5px] flex flex-row">
-                                            <span className="label-text p-[0px]">电子邮件</span>&nbsp;
-                                            <div className="tooltip leading-[20px] align-center" data-tip="用于找回密码">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="feather feather-help-circle"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        <div className="w-full mt-[20px] flex flex-col">
+                            <div className="w-full flex flex-col bg-base-200 rounded-[4px] p-[15px] text-sm">
+                                <div className="space-y-[10px]">
+                                    <div className="pb-[5px] mb-[5px] text-lg">
+                                        账号设置
+                                    </div>
+                                    <div className="flex flex-row justify-between space-x-[50px]">
+                                        <div className="flex flex-col w-full">
+                                            <div className="mb-[5px] flex flex-row">
+                                                <span className="label-text p-[0px]">电子邮件</span>&nbsp;
+                                                <div className="tooltip leading-[20px] align-center" data-tip="用于找回密码">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="feather feather-help-circle"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                                </div>
                                             </div>
+                                            <input value={email} onFocus={inputFocus} onChange={(event: any) => { setEmail(event.target.value) }} type="email" placeholder="example@example.com" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]" />
                                         </div>
-                                        <input value={email} onFocus={inputFocus}  onChange={(event: any) => { setEmail(event.target.value) }} type="email" placeholder="example@example.com" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
-                                    </div>
-                                    <div className="flex flex-col w-full">
-                                        <div className="mb-[5px]">
-                                            <span className="label-text p-[0px]">当前密码&nbsp;<span className="text-error">*</span></span>
+                                        <div className="flex flex-col w-full">
+                                            <div className="mb-[5px]">
+                                                <span className="label-text p-[0px]">当前密码&nbsp;<span className="text-error">*</span></span>
+                                            </div>
+                                            <input onFocus={inputFocus} value={currentPassword} onChange={(event: any) => { setCurrentPassword(event.target.value) }} type="password" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]" />
                                         </div>
-                                        <input onFocus={inputFocus} value={currentPassword} onChange={(event: any) => { setCurrentPassword(event.target.value) }} type="password" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
                                     </div>
-                                </div>
-                                {
-                                    isEmailError &&         
-                                    <span className="w-full label-text-alt flex flex-row mt-[10px] justify-start text-error">
-                                        邮箱格式错误或已被绑定
-                                    </span>
-                                }
-                                {
-                                    isCurrentPasswordError &&         
-                                    <span className="w-full label-text-alt flex flex-row mt-[10px] justify-end text-error">
-                                        请输入当前密码
-                                    </span>
-                                }
-                                {
-                                    isCurrentPasswordDataError &&         
-                                    <span className="w-full label-text-alt flex flex-row mt-[10px] justify-end text-error">
-                                        当前密码错误
-                                    </span>
-                                }
-                                <div className="flex flex-row justify-between space-x-[50px]">
-                                    <div className="flex flex-col w-full">
-                                        <div className="mb-[5px]">
-                                            <span className="label-text p-[0px]">新密码<span className="text-error"></span></span>
+                                    {
+                                        isEmailError &&
+                                        <span className="w-full label-text-alt flex flex-row mt-[10px] justify-start text-error">
+                                            邮箱格式错误或已被绑定
+                                        </span>
+                                    }
+                                    {
+                                        isCurrentPasswordError &&
+                                        <span className="w-full label-text-alt flex flex-row mt-[10px] justify-end text-error">
+                                            请输入当前密码
+                                        </span>
+                                    }
+                                    {
+                                        isCurrentPasswordDataError &&
+                                        <span className="w-full label-text-alt flex flex-row mt-[10px] justify-end text-error">
+                                            当前密码错误
+                                        </span>
+                                    }
+                                    <div className="flex flex-row justify-between space-x-[50px]">
+                                        <div className="flex flex-col w-full">
+                                            <div className="mb-[5px]">
+                                                <span className="label-text p-[0px]">新密码<span className="text-error"></span></span>
+                                            </div>
+                                            <input value={password1} onFocus={inputFocus} onChange={(event: any) => { setPassword1(event.target.value) }} type="password" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]" />
                                         </div>
-                                        <input value={password1} onFocus={inputFocus} onChange={(event: any) => { setPassword1(event.target.value) }} type="password" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
-                                    </div>
-                                    <div className="flex flex-col w-full">
-                                        <div className="mb-[5px]">
-                                            <span className="label-text p-[0px]">确认新密码<span className="text-error"></span></span>
+                                        <div className="flex flex-col w-full">
+                                            <div className="mb-[5px]">
+                                                <span className="label-text p-[0px]">确认新密码<span className="text-error"></span></span>
+                                            </div>
+                                            <input value={password2} onFocus={inputFocus} onChange={(event: any) => { setPassword2(event.target.value) }} type="password" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]" />
                                         </div>
-                                        <input value={password2} onFocus={inputFocus} onChange={(event: any) => { setPassword2(event.target.value) }} type="password" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
                                     </div>
-                                </div>
-                                {
-                                    isPasswordError &&         
-                                    <span className="w-full label-text-alt flex flex-row mt-[10px] justify-start text-error">
-                                        两次密码不一致
-                                    </span>
-                                }
-                                {
-                                    isPasswordFormatError &&         
-                                    <span className="w-full label-text-alt flex flex-row mt-[10px] justify-start text-error">
-                                        新密码格式错误，新密码为包含大小写字母和#@_至少其中一个的10-20位字符串
-                                    </span>
-                                }
-                                <div className="flex flex-row justify-between space-x-[50px]">
-                                    <div className="flex flex-col w-full">
-                                        <div className="mb-[5px]">
-                                            <span className="label-text p-[0px]">open_id<span className="text-error"></span></span>
+                                    {
+                                        isPasswordError &&
+                                        <span className="w-full label-text-alt flex flex-row mt-[10px] justify-start text-error">
+                                            两次密码不一致
+                                        </span>
+                                    }
+                                    {
+                                        isPasswordFormatError &&
+                                        <span className="w-full label-text-alt flex flex-row mt-[10px] justify-start text-error">
+                                            新密码格式错误，新密码为包含大小写字母和#@_至少其中一个的10-20位字符串
+                                        </span>
+                                    }
+                                    <div className="flex flex-row justify-between space-x-[50px]">
+                                        <div className="flex flex-col w-full">
+                                            <div className="mb-[5px]">
+                                                <span className="label-text p-[0px]">open_id<span className="text-error"></span></span>
+                                            </div>
+                                            <input value={openId} onFocus={inputFocus} onChange={(event: any) => { setOpenId(event.target.value) }} type="text" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]" />
                                         </div>
-                                        <input value={openId} onFocus={inputFocus} onChange={(event: any) => { setOpenId(event.target.value) }} type="text" placeholder="" className="w-full focus:outline-none focus:ring focus:ring-success focus:ring-[1px] bg-base-100 rounded-[4px] px-[10px] h-[30px] text-[14px]"/>
                                     </div>
-                                </div>
-                                <div className="w-full">
-                                    <button onClick={saveAccount} className="w-full text-white text-[14px] mt-[5px] h-[35px] rounded-[4px] bg-success hover:bg-[#2ac090]">
-                                        保存
-                                    </button>
+                                    <div className="w-full">
+                                        <button onClick={saveAccount} className="w-full text-white text-[14px] mt-[5px] h-[35px] rounded-[4px] bg-success hover:bg-[#2ac090]">
+                                            保存
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="w-full mt-[20px] flex flex-col">
-                        <div className="w-full flex flex-col bg-base-200 rounded-[4px] p-[15px] text-sm">
-                            <div className="space-y-[10px]">
-                                <div className="pb-[5px] mb-[5px] text-lg flex flex-row">
-                                    个性化
-                                </div>
-                                <div className="flex flex-row justify-between space-x-[50px]">
-                                    <div>
-                                        夜间模式
+                        <div className="w-full mt-[20px] flex flex-col">
+                            <div className="w-full flex flex-col bg-base-200 rounded-[4px] p-[15px] text-sm">
+                                <div className="space-y-[10px]">
+                                    <div className="pb-[5px] mb-[5px] text-lg flex flex-row">
+                                        个性化
                                     </div>
-                                    <div>
-                                        <label className="swap">
-                                            <input type="checkbox" onClick={changeTheme} defaultChecked={localStorage.getItem('theme') == 'dark' ? true : false}/>
-                                            <div className="swap-on">ON</div>
-                                            <div className="swap-off">OFF</div>
-                                        </label>
+                                    <div className="flex flex-row justify-between space-x-[50px]">
+                                        <div>
+                                            夜间模式
+                                        </div>
+                                        <div>
+                                            <label className="swap">
+                                                <input type="checkbox" onClick={changeTheme} defaultChecked={localStorage.getItem('theme') == 'dark' ? true : false} />
+                                                <div className="swap-on">ON</div>
+                                                <div className="swap-off">OFF</div>
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="text-xs border-t-[1px] pt-[10px] text-end">
-                                 <span className="text-error">*</span>&nbsp;个性化设置仅对当前设备有效
+                                    <div className="text-xs border-t-[1px] pt-[10px] text-end">
+                                        <span className="text-error">*</span>&nbsp;个性化设置仅对当前设备有效
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </>
                     : <></>
             }

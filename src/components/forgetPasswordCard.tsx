@@ -19,19 +19,19 @@ const ForgetPasswordCard = () => {
 
     const sendEmail = async () => {
         setIsLoading(true);
-        if(!emailRegex.test(email)) {
+        if (!emailRegex.test(email)) {
             setIsEmailError(true);
             setIsLoading(false);
             return;
         }
         const { data, error } = await ForgetPassword(email);
-        if(data == null) {
+        if (data == null) {
             setIsEmailError(true);
             setIsLoading(false);
             console.log(error);
             return;
         }
-        else if(data.statusCode == 400) {
+        else if (data.statusCode == 400) {
             setIsEmailError(true);
             setIsLoading(false);
             console.log(error);
@@ -58,7 +58,7 @@ const ForgetPasswordCard = () => {
                             <input value={email} onChange={updateEmail} onFocus={inputFocus} className="input input-bordered  h-[40px] rounded-[4px] w-full focus:outline-none mr-[1px]" type="email" placeholder="请输入绑定的邮箱" />
                         </label>
                         {
-                            isEmailError &&         
+                            isEmailError &&
                             <span className="w-full label-text-alt flex flex-row mt-[10px] justify-end text-error">
                                 邮箱格式错误或者邮箱未绑定用户
                             </span>
@@ -68,18 +68,18 @@ const ForgetPasswordCard = () => {
                         <button disabled={isLoading} onClick={sendEmail} className="disabled:bg-stone-400 btn w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">确&nbsp;&nbsp;&nbsp;&nbsp;认</button>
                     </div>
                 </div>
-                : <div className="rounded-[4px] shadow-md border-base-200 border-[2px] p-[20px] flex flex-col">
-                    <div className="text-[20px] text-center font-bold mb-[15px]">
-                        {/* TODO 添加 LOGO */}
-                        MAOJI
+                    : <div className="rounded-[4px] shadow-md border-base-200 border-[2px] p-[20px] flex flex-col">
+                        <div className="text-[20px] text-center font-bold mb-[15px]">
+                            {/* TODO 添加 LOGO */}
+                            MAOJI
+                        </div>
+                        <div className="mb-[20px]  text-center">
+                            已将密码充值链接发送到邮箱<br />请前往邮箱查看
+                        </div>
+                        <div className="w-full">
+                            <a href="/center" className="btn w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">前往登录页</a>
+                        </div>
                     </div>
-                    <div className="mb-[20px]  text-center">
-                        已将密码充值链接发送到邮箱<br/>请前往邮箱查看
-                    </div>
-                    <div className="w-full">
-                        <a href="/center" className="btn w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">前往登录页</a>
-                    </div>
-                </div>
             }
         </div>
     )

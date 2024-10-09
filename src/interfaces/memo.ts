@@ -1,4 +1,4 @@
-export type Memo = {
+type Memo = {
     memoId?: number,
     content: string,
     tags?: Array<string>,
@@ -6,3 +6,5 @@ export type Memo = {
     lastModifiedDate?: Date,
     userId: number
 }
+
+export default Memo;

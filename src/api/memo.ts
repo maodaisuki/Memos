@@ -1,5 +1,5 @@
 'use server'
-import { Memo } from "@/interfaces/memo";
+import Memo from "@/interfaces/memo";
 import instance from "./instance";
 import { cookies } from "next/headers";
 import { queryParser } from "@/lib/queryParser";
@@ -24,17 +24,17 @@ async function updateMemo(memo: Memo) {
             headers: header
         }
     )
-    .then((res) => {
-        const data = res.data;
-        const error = null;
-        return { data, error }
-    })
-    .catch((e) => {
-        console.log(`[Post Memo 错误]: ${e.message}`);
-        const data = null;
-        const error = e.message;
-        return { data, error }
-    })
+        .then((res) => {
+            const data = res.data;
+            const error = null;
+            return { data, error }
+        })
+        .catch((e) => {
+            console.log(`[Post Memo 错误]: ${e.message}`);
+            const data = null;
+            const error = e.message;
+            return { data, error }
+        })
     return { data, error };
 }
 
@@ -51,17 +51,17 @@ async function postMemo(memo: Memo) {
             headers: header
         }
     )
-    .then((res) => {
-        const data = res.data;
-        const error = null;
-        return { data, error }
-    })
-    .catch((e) => {
-        console.log(`[Post Memo 错误]: ${e.message}`);
-        const data = null;
-        const error = e.message;
-        return { data, error }
-    })
+        .then((res) => {
+            const data = res.data;
+            const error = null;
+            return { data, error }
+        })
+        .catch((e) => {
+            console.log(`[Post Memo 错误]: ${e.message}`);
+            const data = null;
+            const error = e.message;
+            return { data, error }
+        })
     return { data, error };
 }
 
@@ -78,17 +78,17 @@ async function getMemoList(page: number, limit: number = 20, query: string = "")
             headers: header
         }
     )
-    .then((res) => {
-        const data = res.data;
-        const error = null;
-        return { data, error }
-    })
-    .catch((e) => {
-        console.log(`[获取 Memo 列表错误]: ${e.message}`);
-        const data = null;
-        const error = e.message;
-        return { data, error }
-    });
+        .then((res) => {
+            const data = res.data;
+            const error = null;
+            return { data, error }
+        })
+        .catch((e) => {
+            console.log(`[获取 Memo 列表错误]: ${e.message}`);
+            const data = null;
+            const error = e.message;
+            return { data, error }
+        });
     return { data, error };
 }
 
@@ -99,23 +99,23 @@ async function getMemoById(id: number) {
             headers: header
         }
     )
-    .then((res) => {
-        let data;
-        if(res.data.memo == null) {
-            data = null;
-        }
-        else {
-            data = res.data;
-        }
-        const error = null;
-        return { data, error }
-    })
-    .catch((e) => {
-        console.log(`[获取 Memo 错误]: ${e.message}`);
-        const data = null;
-        const error = e.message;
-        return { data, error };
-    });
+        .then((res) => {
+            let data;
+            if (res.data.memo == null) {
+                data = null;
+            }
+            else {
+                data = res.data;
+            }
+            const error = null;
+            return { data, error }
+        })
+        .catch((e) => {
+            console.log(`[获取 Memo 错误]: ${e.message}`);
+            const data = null;
+            const error = e.message;
+            return { data, error };
+        });
     return { data, error };
 }
 
@@ -126,24 +126,24 @@ async function deleteMemoById(id: number) {
             headers: header
         }
     )
-    .then((res) => {
-        if(res.data.statusCode == 400) {
+        .then((res) => {
+            if (res.data.statusCode == 400) {
+                const data = null;
+                const error = null;
+                return { data, error };
+            }
+            else {
+                const data = res.data;
+                const error = null;
+                return { data, error };
+            }
+        })
+        .catch((e) => {
+            console.log(`[删除 Memo 错误]: ${e.message}`);
             const data = null;
-            const error = null;
+            const error = e.message;
             return { data, error };
-        }
-        else {
-            const data = res.data;
-            const error = null;
-            return { data, error };
-        }
-    })
-    .catch((e) => {
-        console.log(`[删除 Memo 错误]: ${e.message}`);
-        const data = null;
-        const error = e.message;
-        return { data, error };
-    });
+        });
     return { data, error };
 }
 
