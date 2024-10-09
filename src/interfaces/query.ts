@@ -4,7 +4,7 @@ type QueryMap = {
     userId: number,
     tag: string,
     memoId: number,
-    [key: string]: any
+    [key: string]: any,
 }
 
 export default QueryMap;

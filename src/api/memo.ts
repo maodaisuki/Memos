@@ -70,7 +70,6 @@ async function getMemoList(page: number, limit: number = 20, query: string = "")
     // 添加属性
     queryMap.page = page;
     queryMap.pageSize = limit;
-    // TODO 修改前后台接口
     const { data, error } = await instance.post(
         `/Memo/trends`,
         queryMap,
