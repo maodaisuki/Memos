@@ -65,7 +65,7 @@ const ForgetUsernameCard = () => {
                         }
                     </div>
                     <div className="w-full">
-                        <button disabled={isLoading} onClick={sendEmail} className="btn w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">确&nbsp;&nbsp;&nbsp;&nbsp;认</button>
+                        <button disabled={isLoading} onClick={sendEmail} className="btn disabled:bg-stone-400 w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">确&nbsp;&nbsp;&nbsp;&nbsp;认</button>
                     </div>
                 </div>
                 : <div className="rounded-[4px] shadow-md border-base-200 border-[2px] p-[20px] flex flex-col">

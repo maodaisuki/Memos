@@ -65,7 +65,7 @@ const ForgetPasswordCard = () => {
                         }
                     </div>
                     <div className="w-full">
-                        <button disabled={isLoading} onClick={sendEmail} className="btn w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">确&nbsp;&nbsp;&nbsp;&nbsp;认</button>
+                        <button disabled={isLoading} onClick={sendEmail} className="disabled:bg-stone-400 btn w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">确&nbsp;&nbsp;&nbsp;&nbsp;认</button>
                     </div>
                 </div>
                 : <div className="rounded-[4px] shadow-md border-base-200 border-[2px] p-[20px] flex flex-col">
@@ -74,7 +74,7 @@ const ForgetPasswordCard = () => {
                         MAOJI
                     </div>
                     <div className="mb-[20px]  text-center">
-                        已将密码发送到邮箱<br/>请前往邮箱查看
+                        已将密码充值链接发送到邮箱<br/>请前往邮箱查看
                     </div>
                     <div className="w-full">
                         <a href="/center" className="btn w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">前往登录页</a>
