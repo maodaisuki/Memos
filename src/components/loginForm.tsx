@@ -25,16 +25,18 @@ const LoginForm = () => {
     }
 
     const loginAccount = async () => {
+        setIsRedirecting(true);
         const auth: Auth = {
             username: username,
             password: password
         }
 
         if (await login(auth)) {
-            setIsRedirecting(true);
+            setIsRedirecting(false);
             router.push("/mine");
         }
         else {
+            setIsRedirecting(false);
             setLoginError(true);
         }
     }
@@ -86,7 +88,7 @@ const LoginForm = () => {
                     </div>
                 </div>
                 <div className="w-full">
-                    <button disabled={isRedirecting} onClick={loginAccount} className="btn w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+                    <button disabled={isRedirecting} onClick={loginAccount} className="btn disabled:bg-stone-400 w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
                 </div>
                 {
                     isLoginError &&

@@ -22,6 +22,7 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
     const [currentUser, setCurrentUser] = useState<any>();
     const [selectedYear, setSelectedYear] = useState(currentYear);
     const [isLoading, setIsLoading] = useState(true);
+    const [isUpdating, setIsUpdating] = useState(false);
     const [graphOption, setGraphOption] = useState<any>();
     const [heatmapData, setHeatmapData] = useState<any>();
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -127,6 +128,7 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
     }
 
     const saveAccount = async () => {
+        setIsUpdating(true);
         if (currentPassword == "") {
             setIsCurrentPasswordError(true);
             return;
@@ -151,6 +153,7 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
             open_id: openId
         }
         const { data, error } = await updateUser(account);
+        setIsUpdating(false);
         if (data.statusCode == 200) {
             toast.success("修改成功");
         }
@@ -406,7 +409,7 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
                                         </div>
                                     </div>
                                     <div className="w-full">
-                                        <button onClick={saveAccount} className="w-full text-white text-[14px] mt-[5px] h-[35px] rounded-[4px] bg-success hover:bg-[#2ac090]">
+                                        <button onClick={saveAccount} disabled={isUpdating} className="disabled:bg-stone-400 w-full text-white text-[14px] mt-[5px] h-[35px] rounded-[4px] bg-success hover:bg-[#2ac090]">
                                             保存
                                         </button>
                                     </div>

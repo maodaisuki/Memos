@@ -37,20 +37,25 @@ const RegisterForm = () => {
     }
 
     const registerAccount = async () => {
+        setIsRedirecting(true);
         if (password1 !== password2) {
             setPasswordEqual(false);
+            setIsRedirecting(false);
             return;
         }
         if (!passwordRegex.test(password1)) {
             setPasswordError(true);
+            setIsRedirecting(false);
             return;
         }
         if (!usernameRegex.test(username)) {
             setUsernameError(true);
+            setIsRedirecting(false);
             return;
         }
         if (!isRead) {
             setIsReadError(true);
+            setIsRedirecting(false);
             return;
         }
         const auth: Auth = {
@@ -58,15 +63,16 @@ const RegisterForm = () => {
             password: password1
         }
         if (await register(auth)) {
-            setIsRedirecting(true);
             toast.success("注册成功，3秒后跳转至登录页", {
                 duration: 2500
             });
             setTimeout(() => {
+                setIsRedirecting(false);
                 router.push('/center');
-            }, 3000)
+            }, 3000);
         }
         else {
+            setIsRedirecting(false);
             toast.error("注册失败，请稍后再试");
         }
     }
@@ -137,7 +143,7 @@ const RegisterForm = () => {
                         }
                     </div>
                     <div className="w-full mb-[15px]">
-                        <button disabled={isRedirecting} onClick={registerAccount} className="btn w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">注&nbsp;&nbsp;&nbsp;&nbsp;册</button>
+                        <button disabled={isRedirecting} onClick={registerAccount} className="btn disabled:bg-stone-400 w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">注&nbsp;&nbsp;&nbsp;&nbsp;册</button>
                     </div>
                     <div className="w-full text-start">
                         <span>已有账号？&nbsp;<a className="link link-hover text-success" href="/center">去登录</a></span>
