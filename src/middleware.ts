@@ -19,6 +19,7 @@ export async function middleware(request: NextRequest) {
 }
 
 async function isJWTExpired() {
+    // TODO 添加验证有效期
     var jwtToken = cookies().get('MAOJI-Token') || null;
     if (jwtToken == null) {
         return true;
