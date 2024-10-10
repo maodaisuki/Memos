@@ -131,18 +131,22 @@ const AccountInfo = ({ userId, username, isCurrentUser }: Props) => {
         setIsUpdating(true);
         if (currentPassword == "") {
             setIsCurrentPasswordError(true);
+            setIsUpdating(false);
             return;
         }
         if (!emailRegex.test(email) && email !== "") {
             setIsEmailError(true);
+            setIsUpdating(false);
             return;
         }
         if (password1 !== password2) {
             setIsPasswordError(true);
+            setIsUpdating(false);
             return;
         }
         if (!passwordRegex.test(password1) && password1 !== "" && password2 !== "") {
             setIsPasswordFormatError(true);
+            setIsUpdating(false);
             return;
         }
         const account: Account = {

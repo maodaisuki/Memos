@@ -50,7 +50,7 @@ export default function TagPage() {
         <main className="m-0 min-h-screen min-w-screen flex flex-col items-center">
             <div className="md:w-full max-w-xl flex flex-col items-center w-full">
                 <HeaderMenu />
-                <MemosContainer query={`#${decodeURI(tag.toString())}#`} initialList={initialList.data.memoList} username={currentUsername} userId={currentUser.userId} />
+                <MemosContainer query={`tag:${decodeURI(tag.toString())}`} initialList={initialList.data.memoList} username={currentUsername} userId={currentUser.userId} />
             </div>
         </main>
     );

@@ -28,6 +28,7 @@ const Forget = () => {
         setIsLoading(true);
         if (!passwordRegex.test(password)) {
             setIsPasswordError1(true);
+            setIsLoading(false);
             return;
         }
         const { data, error } = await ResetPassword(hash, userId, email, password);
