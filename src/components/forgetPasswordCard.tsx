@@ -72,7 +72,7 @@ const ForgetPasswordCard = () => {
                             MAOJI
                         </div>
                         <div className="mb-[20px]  text-center">
-                            已将密码充值链接发送到邮箱<br />请前往邮箱查看
+                            已将密码重置链接发送到邮箱<br />请前往邮箱查看
                         </div>
                         <div className="w-full">
                             <a href="/center" className="btn w-full no-animation text-white bg-success active:bg-[#2ac090] rounded-[5px]">前往登录页</a>

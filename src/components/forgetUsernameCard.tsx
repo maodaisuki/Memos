@@ -28,13 +28,11 @@ const ForgetUsernameCard = () => {
         if (data == null) {
             setIsEmailError(true);
             setIsLoading(false);
-            console.log(error);
             return;
         }
         else if (data.statusCode == 400) {
             setIsEmailError(true);
             setIsLoading(false);
-            console.log(error);
             return;
         }
         else {
