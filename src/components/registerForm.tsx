@@ -132,7 +132,7 @@ const RegisterForm = () => {
                             <label className="label cursor-pointer">
                                 <input type="checkbox" className="checkbox-success checkbox [--chkfg:white] checkbox-xs" onChange={() => { setIsReadError(false); setIsRead(!isRead); }} checked={isRead} />
                                 &nbsp;&nbsp;
-                                <span className="w-full text-start label-text">我已经阅读并同意<a className="link link-hover text-success" href="#"> MAOJI 用户协议</a></span>
+                                <span className="w-full text-start label-text">我已经阅读并同意<a className="link link-hover text-success" href="/about/paper"> MAOJI 用户协议</a></span>
                             </label>
                         </div>
                         {
