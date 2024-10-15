@@ -4,12 +4,11 @@ import HeaderMenu from "@/components/header";
 import MemosContainer from "@/components/memosContainer";
 import { parseToken } from "@/lib/token";
 
-async function getUsername() {
-    const pToken = await parseToken();
-    return pToken.sub;
-}
-
 export default async function Mine() {
+    async function getUsername() {
+        const pToken = await parseToken();
+        return pToken.sub;
+    }
     const initialList = await getMemoList(1);
     const username = await getUsername() || '';
     const currentUser = await (await getUserByUsername(username)).data?.account || null;

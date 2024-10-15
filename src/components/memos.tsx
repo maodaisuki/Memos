@@ -15,12 +15,11 @@ type Props = {
     onDelete: Function
 }
 
-const convertDate = (utc: string) => {
-    const date = new Date(utc);
-    return date.toLocaleString();
-}
-
 const MemosCard = ({ memo, currentUserId, onDelete }: Props) => {
+    const convertDate = (utc: string) => {
+        const date = new Date(utc);
+        return date.toLocaleString();
+    }
     const [isOnEdit, setIsOnEdit] = useState(false);
     const [eidtedMemo, setEditedMemo] = useState(memo.content.slice());
     const onEdit = () => {

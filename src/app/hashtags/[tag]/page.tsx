@@ -7,12 +7,11 @@ import { parseToken } from "@/lib/token";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const getUsername = async () => {
-    const pToken = await parseToken();
-    return pToken.sub;
-}
-
 export default function TagPage() {
+    const getUsername = async () => {
+        const pToken = await parseToken();
+        return pToken.sub;
+    }
     const { tag } = useParams();
     const [currentUsername, setCurrentUsername] = useState("");
     const [currentUser, setCurrentUser] = useState<any>(null);

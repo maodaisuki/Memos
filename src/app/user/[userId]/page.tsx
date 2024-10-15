@@ -5,11 +5,12 @@ import { getUserById, getUserByUsername } from "@/api/user";
 import { parseToken } from "@/lib/token";
 import HeaderMenu from "@/components/header";
 import AccountInfo from "@/components/accountInfo";
-async function getUsername() {
-    const pToken = await parseToken();
-    return pToken.sub;
-}
+
 export default function UserPage() {
+    async function getUsername() {
+        const pToken = await parseToken();
+        return pToken.sub;
+    }
     const { userId } = useParams();
     const [username, setUsername] = useState("");
     const [currentUsername, setCurrentUsername] = useState("");

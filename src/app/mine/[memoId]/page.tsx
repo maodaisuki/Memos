@@ -7,11 +7,12 @@ import MemosContainer from "@/components/memosContainer";
 import { parseToken } from "@/lib/token";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-const getUsername = async () => {
-    const pToken = await parseToken();
-    return pToken.sub;
-}
+
 export default function MemoIdPage() {
+    const getUsername = async () => {
+        const pToken = await parseToken();
+        return pToken.sub;
+    }
     const { memoId } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [initialList, setInitialList] = useState<any>();

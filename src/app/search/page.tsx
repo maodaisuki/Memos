@@ -6,11 +6,12 @@ import MemosContainer from "@/components/memosContainer";
 import { parseToken } from "@/lib/token";
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react";
-const getUsername = async () => {
-    const pToken = await parseToken();
-    return pToken.sub;
-}
+
 const SearchPage = () => {
+    const getUsername = async () => {
+        const pToken = await parseToken();
+        return pToken.sub;
+    }
     const searchParams = useSearchParams();
     const [query, setQuery] = useState(searchParams?.get('query') || '');
     const [initialList, setInitialList] = useState<any>(null)

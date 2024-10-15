@@ -1,7 +1,4 @@
 'use client'
-import Link from "next/link";
-import Image from "next/image";
-import AccountCard from "./account";
 import React, { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import { getUserAnalysisData, getUserById, getUserHeatmapData, updateUser } from "@/api/user";

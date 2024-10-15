@@ -11,22 +11,21 @@ type Props = {
     onDelete: Function
 }
 
-const copyLink = (memoId: number) => {
-    const memoUrl = process.env.NEXT_PUBLIC_BASE_URL + `/mine/${memoId}`
-    navigator.clipboard.writeText(memoUrl).then(() => {
-        document.getElementById("memoDropdownMenu")?.blur();
-        toast.success("复制链接成功");
-    });
-}
-
-const copyContent = (memoContent: string) => {
-    navigator.clipboard.writeText(memoContent).then(() => {
-        document.getElementById("memoDropdownMenu")?.blur();
-        toast.success("复制内容成功");
-    });
-}
-
 const MemosHeader = ({ createdTime, memo, onEdit, userId, currentUserId, onDelete }: Props) => {
+    const copyLink = (memoId: number) => {
+        const memoUrl = process.env.NEXT_PUBLIC_BASE_URL + `/mine/${memoId}`
+        navigator.clipboard.writeText(memoUrl).then(() => {
+            document.getElementById("memoDropdownMenu")?.blur();
+            toast.success("复制链接成功");
+        });
+    }
+
+    const copyContent = (memoContent: string) => {
+        navigator.clipboard.writeText(memoContent).then(() => {
+            document.getElementById("memoDropdownMenu")?.blur();
+            toast.success("复制内容成功");
+        });
+    }
     return (
         <div className="W-full flex flex-row mb-[12px] text-[12px] justify-between items-center">
             <div className="text-baseline">
