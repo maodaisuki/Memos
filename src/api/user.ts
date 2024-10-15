@@ -3,11 +3,10 @@ import Account from "@/interfaces/account";
 import instance from "./instance";
 import { cookies } from "next/headers";
 
-const header = {
-    'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
-}
-
 async function getUserById(id: number) {
+    const header = {
+        'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
+    };
     const { data, error } = await instance.get(
         `/User/${id}`,
         {
@@ -29,6 +28,9 @@ async function getUserById(id: number) {
 }
 
 async function getUserByUsername(username: string) {
+    const header = {
+        'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
+    };
     const { data, error } = await instance.get(
         `/User?username=${username}`,
         {
@@ -50,6 +52,9 @@ async function getUserByUsername(username: string) {
 }
 
 async function getUserAnalysisData(userId: number, year: number) {
+    const header = {
+        'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
+    };
     const { data, error } = await instance.get(
         `/User/analysis?userId=${userId}&year=${year}`,
         {
@@ -71,6 +76,9 @@ async function getUserAnalysisData(userId: number, year: number) {
 }
 
 async function getUserHeatmapData(userId: number, year: number) {
+    const header = {
+        'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
+    };
     const { data, error } = await instance.get(
         `/User/heatmap?userId=${userId}&year=${year}`,
         {
@@ -92,7 +100,9 @@ async function getUserHeatmapData(userId: number, year: number) {
 }
 
 async function updateUser(account: Account) {
-    console.log(account);
+    const header = {
+        'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
+    };
     const { data, error } = await instance.put(
         `/User`,
         {

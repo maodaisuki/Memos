@@ -1,7 +1,7 @@
 'use client'
 import { ResetPassword } from "@/api/email";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 const Forget = () => {
     const searchParams = useSearchParams();
@@ -111,4 +111,10 @@ const Forget = () => {
     );
 }
 
-export default Forget;
+const ForgetPage = () => {
+    return <Suspense fallback={<></>}>
+        <Forget />
+    </Suspense>
+}
+
+export default ForgetPage;

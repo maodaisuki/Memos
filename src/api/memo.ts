@@ -4,12 +4,10 @@ import instance from "./instance";
 import { cookies } from "next/headers";
 import { queryParser } from "@/lib/queryParser";
 
-const header = {
-    'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
-}
-
 async function updateMemo(memo: Memo) {
-    // console.log(memo.createdDate);
+    const header = {
+        'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
+    };
     const { data, error } = await instance.post(
         `/Memo`,
         {
@@ -39,7 +37,9 @@ async function updateMemo(memo: Memo) {
 }
 
 async function postMemo(memo: Memo) {
-    // console.log(memo);
+    const header = {
+        'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
+    };
     const { data, error } = await instance.post(
         `/Memo`,
         {
@@ -66,6 +66,9 @@ async function postMemo(memo: Memo) {
 }
 
 async function getMemoList(page: number, limit: number = 20, query: string = "") {
+    const header = {
+        'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
+    };
     const queryMap = queryParser(query);
     // 添加属性
     queryMap.page = page;
@@ -92,6 +95,9 @@ async function getMemoList(page: number, limit: number = 20, query: string = "")
 }
 
 async function getMemoById(id: number) {
+    const header = {
+        'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
+    };
     const { data, error } = await instance.get(
         `/Memo?memoId=${id}`,
         {
@@ -119,6 +125,9 @@ async function getMemoById(id: number) {
 }
 
 async function deleteMemoById(id: number) {
+    const header = {
+        'Authorization': `Bearer ${cookies().get('MAOJI-Token')?.value || ''}`
+    };
     const { data, error } = await instance.delete(
         `/Memo?memoId=${id}`,
         {

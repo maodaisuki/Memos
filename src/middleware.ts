@@ -3,6 +3,18 @@ import { cookies } from "next/headers";
 import { parseToken } from "./lib/token";
 
 export async function middleware(request: NextRequest) {
+    async function isJWTExpired() {
+        // TODO 添加验证有效期
+        var jwtToken = cookies().get('MAOJI-Token') || null;
+        if (jwtToken == null) {
+            return true;
+        }
+        const decodedToken = await parseToken(jwtToken.value);
+        if ((await decodedToken)?.iss == process.env.NEXT_PUBLIC_API_URL && (await decodedToken)?.aud == process.env.NEXT_PUBLIC_BASE_URL) {
+            return false;
+        }
+        return true;
+    }
     if (request.nextUrl.pathname == '/') {
         return NextResponse.redirect(new URL('/mine', request.url));
     }
@@ -16,17 +28,4 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL("/mine", request.url))
         }
     }
-}
-
-async function isJWTExpired() {
-    // TODO 添加验证有效期
-    var jwtToken = cookies().get('MAOJI-Token') || null;
-    if (jwtToken == null) {
-        return true;
-    }
-    const decodedToken = await parseToken(jwtToken.value);
-    if ((await decodedToken)?.iss == process.env.NEXT_PUBLIC_API_URL && (await decodedToken)?.aud == process.env.NEXT_PUBLIC_BASE_URL) {
-        return false;
-    }
-    return true;
 }
