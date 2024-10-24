@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
             return true;
         }
         const decodedToken = await parseToken(jwtToken.value);
-        if ((await decodedToken)?.iss == process.env.NEXT_PUBLIC_API_URL && (await decodedToken)?.aud == process.env.NEXT_PUBLIC_BASE_URL) {
+        if (decodedToken?.iss == process.env.NEXT_PUBLIC_API_URL && decodedToken?.aud == process.env.NEXT_PUBLIC_BASE_URL) {
             return false;
         }
         return true;

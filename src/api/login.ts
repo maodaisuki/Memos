@@ -24,7 +24,7 @@ async function login(auth: Auth) {
                         secure: true,
                         sameSite: 'none',
                         maxAge: 60 * 60 * 24 * 360,
-                        // httpOnly: true
+                        httpOnly: true
                     });
                     return true;
                 }
